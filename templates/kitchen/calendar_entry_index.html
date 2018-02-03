@@ -1,0 +1,20 @@
+{% extends "bootstrap4.html" %}
+
+{% block content %}
+{% if calendar_entries %}
+  <ul class="list-group">
+      {% for calendar_entry in calendar_entries %}
+      <li class="list-group-item">
+          <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/">{{calendar_entry.date_planned}}</a>
+          {% for recipe in calendar_entry.recipes.all %}
+              {{ recipe.name }} &nbsp;&nbsp;
+          {% endfor %}
+          <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/gs/">Add to Calendar</a>
+      </li>
+      {% endfor %}
+  </ul>
+{% else %}
+<p>No calendar entries are available.</p>
+{% endif %}
+<a href="/kitchen/calendar_entry/add">Add One!</a>
+{% endblock %}

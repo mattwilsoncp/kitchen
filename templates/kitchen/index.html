@@ -1,0 +1,21 @@
+{% extends "bootstrap4.html" %}
+
+{% block content %}
+<h1>Categories</h1>
+
+{% if categories %}
+  <ul class="list-group">
+      {% for category in categories %}
+      <li class="list-group-item">
+          <a href="/kitchen/categories/{{category.id}}/">{{category.name}}</a>
+      </li>
+      {% endfor %}
+  </ul>
+{% else %}
+<p>No categories are available.</p>
+
+<a href="/kitchen/categories/add">Add New Category</a>
+
+{% endif %}
+
+{% endblock %}
