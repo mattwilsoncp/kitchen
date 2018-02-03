@@ -26,7 +26,7 @@ class Category(models.Model):
       return self.name
 
     def get_absolute_url(self):
-        return reverse('kitchen:category-update', kwargs={'pk': self.pk})
+        return reverse('kitchen:category-index')
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)

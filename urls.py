@@ -1,12 +1,13 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, IngredientUpdate, IngredientAdd, RecipeAdd, RecipeUpdate, CalendarEntryAdd, CalendarEntryUpdate, ShoppingListAdd, ShoppingListUpdate
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, RecipeAdd, RecipeUpdate, CalendarEntryAdd, CalendarEntryUpdate, ShoppingListAdd, ShoppingListUpdate
 
 app_name = 'kitchen'
 urlpatterns = [
-    path('categories/', views.index, name='index'),
-    path('categories/<int:pk>/', CategoryUpdate.as_view(), name='category-update'),
+    path('categories/', views.category_index, name='category-index'),
+    path('category/<int:pk>/', CategoryUpdate.as_view(), name='category-update'),
+    path('category/add/', CategoryCreate.as_view(), name='category-create' ),
 
     path('ingredients/', views.ingredients_index, name='ingredients-index'),
     path('ingredients/add/', IngredientAdd.as_view(), name='ingredient-add' ),

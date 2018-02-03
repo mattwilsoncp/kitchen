@@ -18,26 +18,15 @@ def connect_helper(user):
     service = build(serviceName='calendar', version='v3', http=http)
     return service
 
-
-# Create your views here.
-
-def index(request):
+def category_index(request):
     categories = Category.objects.order_by('name')
-    template = loader.get_template('kitchen/index.html')
+    template = loader.get_template('kitchen/category_index.html')
     context = { 'categories' : categories }
     return HttpResponse(template.render(context, request))
 
-def add(request):
-    category = Category.create("Empty")
-    category.save()
-    return render(request, 'kitchen/detail.html', {'category':category})
-
-def edit(request, category_id):
-    category = Category.objects.get(pk=category_id)
-    category.name = request.POST['name']
-    category.category_type = request.POST['category_type']
-    category.save()
-    return HttpResponse("Edit Saved")
+class CategoryCreate(CreateView):
+    model = Category
+    fields = ['category_type','name']
 
 class CategoryUpdate(UpdateView):
     model = Category

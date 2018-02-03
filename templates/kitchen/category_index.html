@@ -7,15 +7,14 @@
   <ul class="list-group">
       {% for category in categories %}
       <li class="list-group-item">
-          <a href="/kitchen/categories/{{category.id}}/">{{category.name}}</a>
+          {{ category.category_type }}
+          <a href="/kitchen/category/{{category.id}}/">{{category.name}}</a>
       </li>
       {% endfor %}
   </ul>
 {% else %}
 <p>No categories are available.</p>
-
-<a href="/kitchen/categories/add">Add New Category</a>
-
 {% endif %}
+<a href="/kitchen/category/add">Add One!</a>
 
 {% endblock %}
