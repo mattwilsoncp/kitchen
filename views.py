@@ -4,6 +4,7 @@ from django.http import HttpResponse, Http404
 from django.template import loader
 from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 import httplib2
 from apiclient.discovery import build
@@ -55,11 +56,15 @@ def recipes_index(request):
 
 class RecipeAdd(CreateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions']
 
 class RecipeUpdate(UpdateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions']
+
+class RecipeDelete(DeleteView):
+    model = Recipe
+    success_url = reverse_lazy('kitchen:recipes-index')
 
 
 def google_calendar_index(request):

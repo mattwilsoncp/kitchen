@@ -10,5 +10,12 @@
     <a class="nav-link" href="/kitchen/shopping_lists">Shopping Lists</a>
     <a class="nav-link" href="/logout">Logout</a>
     <a class="nav-link" href="/login">Login</a>
+
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}</p>
+    {% endif %}
   </div>
+
+  
+
 </nav>

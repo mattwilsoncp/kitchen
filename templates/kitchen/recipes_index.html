@@ -8,6 +8,8 @@
       {% for recipe in recipes %}
       <li class="list-group-item">
           <a href="/kitchen/recipe/{{recipe.id}}/">{{recipe.name}}</a>
+          &nbsp;&nbsp;
+          <a href="/kitchen/recipe/{{recipe.id}}/delete" class="badge badge-danger">Delete</a>
       </li>
       {% endfor %}
   </ul>

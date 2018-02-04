@@ -51,12 +51,14 @@ class Recipe(models.Model):
     cooking_time_units = models.CharField(max_length=10)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     ingredients = models.ManyToManyField(Ingredient)
+    directions = models.TextField(default="")
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('kitchen:recipe-update', kwargs={'pk': self.pk})
+
 
 class GoogleCalendar(models.Model):
     user = models.CharField(max_length=200)

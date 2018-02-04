@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, RecipeAdd, RecipeUpdate, CalendarEntryAdd, CalendarEntryUpdate, ShoppingListAdd, ShoppingListUpdate
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, ShoppingListAdd, ShoppingListUpdate
 
 app_name = 'kitchen'
 urlpatterns = [
@@ -16,6 +16,9 @@ urlpatterns = [
     path('recipes/', views.recipes_index, name='recipes-index'),
     path('recipe/add/', RecipeAdd.as_view(), name='recipe-add' ),
     path('recipe/<int:pk>/', RecipeUpdate.as_view(), name='recipe-update'),
+    path('recipe/<int:pk>/delete', RecipeDelete.as_view(), name='recipe-delete'),
+
+
 
     path('google_calendars/', views.google_calendar_index, name='google_calendar_index'),
     path('calendar_entries/', views.calendar_entry_index, name='calendarEntry-index'),
