@@ -5,6 +5,7 @@ from django.template import loader
 from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.core.files.storage import FileSystemStorage
 
 import httplib2
 from apiclient.discovery import build
@@ -47,6 +48,12 @@ class IngredientUpdate(UpdateView):
     model = Ingredient
     fields = ['name','generic_name','barcode','estimated_cost','quantity_on_hand']
 
+class IngredientDelete(DeleteView):
+    model = Ingredient
+    success_url = reverse_lazy('kitchen:ingredients-index')
+
+
+
 def recipes_index(request):
     recipes = Recipe.objects.order_by('name')
     template = loader.get_template('kitchen/recipes_index.html')
@@ -56,11 +63,11 @@ def recipes_index(request):
 
 class RecipeAdd(CreateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions','recipe_photo']
 
 class RecipeUpdate(UpdateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions','recipe_photo']
 
 class RecipeDelete(DeleteView):
     model = Recipe
@@ -101,6 +108,9 @@ class CalendarEntryUpdate(UpdateView):
     model = CalendarEntry
     fields = ['date_planned', 'recipes', 'google_calendar']
 
+class CalendarEntryDelete(DeleteView):
+    model = CalendarEntry
+    success_url = reverse_lazy('kitchen:calendarEntry-index')
 
 
 def shopping_list_index(request):
@@ -118,3 +128,15 @@ class ShoppingListUpdate(UpdateView):
 
 def home(request):
     return render(request, 'home.html')
+
+def model_form_upload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = DocumentForm()
+    return render(request, 'core/model_form_upload.html', {
+        'form': form
+    })

@@ -10,6 +10,8 @@
               {{ recipe.name }} &nbsp;&nbsp;
           {% endfor %}
           <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/gs/">Add to Calendar</a>
+          &nbsp;|&nbsp;
+          <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/delete/" class="badge badge-danger">Delete</a>
       </li>
       {% endfor %}
   </ul>

@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, ShoppingListAdd, ShoppingListUpdate
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate
 
 app_name = 'kitchen'
 urlpatterns = [
@@ -12,6 +12,8 @@ urlpatterns = [
     path('ingredients/', views.ingredients_index, name='ingredients-index'),
     path('ingredients/add/', IngredientAdd.as_view(), name='ingredient-add' ),
     path('ingredient/<int:pk>/', IngredientUpdate.as_view(), name='ingredient-update'),
+    path('ingredient/<int:pk>/delete/', IngredientDelete.as_view(), name='ingredient-delete'),
+
 
     path('recipes/', views.recipes_index, name='recipes-index'),
     path('recipe/add/', RecipeAdd.as_view(), name='recipe-add' ),
@@ -25,6 +27,7 @@ urlpatterns = [
     path('calendar_entry/add/', CalendarEntryAdd.as_view(), name='calendarEntry-add' ),
     path('calendar_entry/<int:pk>/', CalendarEntryUpdate.as_view(), name='calendarEntry-update'),
     path('calendar_entry/<int:calendar_entry_id>/gs/', views.calendar_entry_gs, name='calendarEntry-gs'),
+    path('calendar_entry/<int:pk>/delete/', CalendarEntryDelete.as_view(), name='calendarEntry-delete'),
 
     path('shopping_list/', views.shopping_list_index, name='shoppingList-index'),
     path('shopping_list/add/', ShoppingListAdd.as_view(), name='shoppingList-add' ),
