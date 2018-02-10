@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.http import HttpResponse, Http404
 from django.template import loader
-from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar
+from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar, Maintenance
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
@@ -38,6 +38,7 @@ def ingredients_index(request):
     ingredients = Ingredient.objects.order_by('name')
     template = loader.get_template('kitchen/ingredients_index.html')
     context = { 'ingredients' : ingredients }
+    Maintenance.export_database
     return HttpResponse(template.render(context, request))
 
 class IngredientAdd(CreateView):
@@ -63,11 +64,11 @@ def recipes_index(request):
 
 class RecipeAdd(CreateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions','recipe_photo']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions']
 
 class RecipeUpdate(UpdateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions','recipe_photo']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions']
 
 class RecipeDelete(DeleteView):
     model = Recipe

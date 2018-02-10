@@ -7,6 +7,9 @@ from oauth2client.client import AccessTokenCredentials
 
 import bson
 import json
+import gspread
+
+
 
 def connect_helper(user):
     c = user.social_auth.get(provider='google-oauth2')
@@ -61,6 +64,8 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse('kitchen:recipe-update', kwargs={'pk': self.pk})
 
+    
+
 
 class GoogleCalendar(models.Model):
     user = models.CharField(max_length=200)
@@ -102,3 +107,20 @@ class ShoppingList(models.Model):
 
     def get_absolute_url(self):
         return reverse('kitchen:shoppingList-update', kwargs={'pk': self.pk})
+
+class Maintenance:
+    def export_database():
+        user = request.user
+        c = user.social_auth.get(provider='google-oauth2')
+        access_token = c.tokens
+        credentials = AccessTokenCredentials(access_token, 'my-user-agent/1.0')
+        http = httplib2.Http()
+        http = credentials.authorize(http)
+        service = build(serviceName='sheets', version='v4', http=http)
+
+        gc = gspread.login('mattwilsoncp16', 'yourpassword')
+        sh = gc.open("SmartKitchenBackup")
+        worksheet = sh.get_worksheets(0)
+        worksheet.update_cell(1,2,'GSpread!')
+
+
