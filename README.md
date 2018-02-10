@@ -22,6 +22,11 @@ Apache2 Setup:
           </Files>
         </Directory>
 
+        Alias /static /source/django/iotprojects/static
+        <Directory /source/django/iotprojects/static>
+            Require all granted
+        </Directory>
+
         WSGIDaemonProcess iot python-home=/source/django/iotprojects/env python-path=/source/django/iotprojects
         WSGIProcessGroup iot
         WSGIScriptAlias / /source/django/iotprojects/iot/wsgi.py
