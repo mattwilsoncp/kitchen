@@ -5,8 +5,6 @@ import httplib2
 from apiclient.discovery import build
 from oauth2client.client import AccessTokenCredentials
 
-import bson
-import json
 import gspread
 
 
@@ -56,7 +54,7 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(Ingredient)
     directions = models.TextField(default="")
     recipe_photo = models.FileField(upload_to='recipe_photos/', default="")
-    
+
 
     def __str__(self):
         return self.name
@@ -64,7 +62,7 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse('kitchen:recipe-update', kwargs={'pk': self.pk})
 
-    
+
 
 
 class GoogleCalendar(models.Model):
@@ -75,7 +73,7 @@ class GoogleCalendar(models.Model):
     def __str__(self):
         return self.calendar_name
 
-    
+
 class CalendarEntry(models.Model):
     date_planned = models.DateField(auto_now=False, auto_now_add=False, editable=True)
     recipes = models.ManyToManyField(Recipe)
@@ -122,5 +120,3 @@ class Maintenance:
         sh = gc.open("SmartKitchenBackup")
         worksheet = sh.get_worksheets(0)
         worksheet.update_cell(1,2,'GSpread!')
-
-
