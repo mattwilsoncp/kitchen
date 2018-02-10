@@ -11,6 +11,11 @@ import httplib2
 from apiclient.discovery import build
 from oauth2client.client import AccessTokenCredentials
 
+import gspread
+
+
+import pdb
+
 def connect_helper(user):
     c = user.social_auth.get(provider='google-oauth2')
     access_token = c.tokens
@@ -38,7 +43,16 @@ def ingredients_index(request):
     ingredients = Ingredient.objects.order_by('name')
     template = loader.get_template('kitchen/ingredients_index.html')
     context = { 'ingredients' : ingredients }
-    Maintenance.export_database
+
+    #user = request.user
+    #c = user.social_auth.get(provider='google-oauth2')
+    #access_token = c.tokens
+    #credentials = AccessTokenCredentials(access_token, 'my-user-agent/1.0')
+    #http = credentials.authorize(httplib2.Http())
+    #discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?version=v4')
+    #service = build('sheets', 'v4', http=http, discoveryServiceUrl=discoveryUrl)
+
+    #return HttpResponse(user)
     return HttpResponse(template.render(context, request))
 
 class IngredientAdd(CreateView):
@@ -85,7 +99,7 @@ def google_calendar_index(request):
     for calendar_list_entry in calendar_list['items']:
         google_calendar = GoogleCalendar(user=request.user, calendar_name=calendar_list_entry['summary'], calendar_id=calendar_list_entry['id'])
         google_calendar.save()
-         
+
     google_calendars = GoogleCalendar.objects.order_by('id')
     template = loader.get_template('kitchen/google_calendar_index.html')
     context = { 'google_calendars' : google_calendars}

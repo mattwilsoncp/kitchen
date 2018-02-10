@@ -6,7 +6,7 @@ from apiclient.discovery import build
 from oauth2client.client import AccessTokenCredentials
 
 import gspread
-
+import pdb
 
 
 def connect_helper(user):
@@ -107,7 +107,7 @@ class ShoppingList(models.Model):
         return reverse('kitchen:shoppingList-update', kwargs={'pk': self.pk})
 
 class Maintenance:
-    def export_database():
+    def export_database(request):
         user = request.user
         c = user.social_auth.get(provider='google-oauth2')
         access_token = c.tokens
@@ -116,7 +116,8 @@ class Maintenance:
         http = credentials.authorize(http)
         service = build(serviceName='sheets', version='v4', http=http)
 
-        gc = gspread.login('mattwilsoncp16', 'yourpassword')
+
+        gc = gspread.authenticate(credentials)
         sh = gc.open("SmartKitchenBackup")
         worksheet = sh.get_worksheets(0)
         worksheet.update_cell(1,2,'GSpread!')

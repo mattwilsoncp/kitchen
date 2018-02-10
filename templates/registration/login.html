@@ -1,5 +1,9 @@
 {% extends "bootstrap4.html" %}
 
 {% block content %}
-  <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+<div class="right_col" role="main">
+  <div class="g-signin2" data-onsuccess="onSignIn">
+    <a href="{% url 'social:begin' 'google-oauth2' %}"><img src="/static/images/btn_google_signin_light_normal_web.png"></a><br>
+  </div>
+</div>
 {% endblock %}

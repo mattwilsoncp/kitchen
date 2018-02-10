@@ -35,6 +35,5 @@ Change to your source directory:
 * pip install social-auth-app-django
 * pip install django-widget-tweaks
 * pip install psycopg2
+* pip install --upgrade google-api-python-client
 * pip install gspread
-
-
