@@ -1,22 +1,52 @@
 {% extends "bootstrap4.html" %}
 
 {% block content %}
-{% if calendar_entries %}
-  <ul class="list-group">
-      {% for calendar_entry in calendar_entries %}
-      <li class="list-group-item">
-          <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/">{{calendar_entry.date_planned}}</a>
-          {% for recipe in calendar_entry.recipes.all %}
-              {{ recipe.name }} &nbsp;&nbsp;
-          {% endfor %}
-          <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/gs/">Add to Calendar</a>
-          &nbsp;|&nbsp;
-          <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/delete/" class="badge badge-danger">Delete</a>
-      </li>
-      {% endfor %}
-  </ul>
-{% else %}
-<p>No calendar entries are available.</p>
-{% endif %}
+<div class="right_col" role="main">
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Calendar Entries<small>These are the date that you wish to have the recipe</small></h2>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="table-responsive">
+                  <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                                <tr>
+                                  <th class="column-title">#</th>
+                                  <th class="column-title">Date</th>
+                                  <th class="column-title"></th>
+                                  <th class="column-title"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 {% for calendar_entry in calendar_entries %}
+                                    <tr>
+                                      <td class=" ">{{ ingredient.id }}</td>
+                                      <td class=" ">
+                                        {{ recipe.name }} &nbsp;&nbsp;
+                                        <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/">{{calendar_entry.date_planned}}</a>
+                                      </td>
+                                      <td class=" ">
+                                        <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/gs/">Add to Calendar</a>
+                                        &nbsp;|&nbsp;
+                                        <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/delete/" class="badge badge-danger">Delete</a>
+                                      </td>
+                                      <td class=" "></td>
+                                    </tr>
+                                 {% endfor %}
+                              </tbody>
+               </table>
+            </div>
+          </div>
+        </div>
+</div>
+</div>
+</div>
+</div>
 <a href="/kitchen/calendar_entry/add">Add One!</a>
+
 {% endblock %}

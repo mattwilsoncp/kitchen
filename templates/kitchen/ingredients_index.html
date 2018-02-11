@@ -28,7 +28,7 @@
                               <tbody>
                                  {% for ingredient in ingredients %}
                                     <tr>
-                                      <td class=" "></td>
+                                      <td class=" ">{{ ingredient.id }}</td>
                                       <td class=" "><a href="/kitchen/ingredient/{{ ingredient.id }}/">{{ ingredient.name }}</a></td>
                                       <td class=" "></td>
                                     </tr>
