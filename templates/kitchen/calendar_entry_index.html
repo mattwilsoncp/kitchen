@@ -25,10 +25,12 @@
                               <tbody>
                                  {% for calendar_entry in calendar_entries %}
                                     <tr>
-                                      <td class=" ">{{ ingredient.id }}</td>
+                                      <td class=" ">{{ calendar_entry.id }}</td>
                                       <td class=" ">
-                                        {{ recipe.name }} &nbsp;&nbsp;
-                                        <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/">{{calendar_entry.date_planned}}</a>
+                                        <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/">{{calendar_entry.date_planned}}</a>&nbsp;
+                                        {% for recipe in calendar_entry.recipes.all %}
+                                          {{ recipe.name }} &nbsp;&nbsp;
+                                        {% endfor %}
                                       </td>
                                       <td class=" ">
                                         <a href="/kitchen/calendar_entry/{{calendar_entry.id}}/gs/">Add to Calendar</a>
