@@ -121,7 +121,6 @@ class BackupSheet():
 
         ## Ingredients
         wks = sh.worksheet_by_title("Ingredients")
-
         rowcount = 1
         while True:
           row = wks.get_row(rowcount)
@@ -137,3 +136,28 @@ class BackupSheet():
               ingredient = Ingredient()
             ingredient.name = row[0]
             ingredient.save()
+
+        ## Recipes
+        wks = sh.worksheet_by_title("Recipes")
+        rowcount = 1
+        while True:
+          row = wks.get_row(rowcount)
+          if len(row[0]) == 0:
+              break
+          rowcount = rowcount + 1
+          print(row[0])
+          if rowcount > 2:
+            if len(row) > 8:
+              id = row[9]
+              recipe = Recipe.objects.get(pk=id)
+            else:
+              recipe = Recipe()
+            recipe.name = row[0]
+            recipe.description = row[1]
+            recipe.preparation_time = row[2]
+            recipe.preparation_time_units = row[3]
+            recipe.cooking_time = row[4]
+            recipe.cooking_time_units = row[5]
+            recipe.category_id = row[6]
+            recipe.directions = row[7]
+            recipe.save()
