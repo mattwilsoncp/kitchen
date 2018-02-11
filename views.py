@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.template import loader
-from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar
+from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar, RecipeIngredient, Unit
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
@@ -151,3 +151,11 @@ def syncToSheets(request):
     user = request.user
     b.syncToSheets(user)
     return redirect('home')
+
+class RecipeIngredientCreate(CreateView):
+    model = RecipeIngredient
+    fields = ['amount', 'unit', 'ingredient']
+
+class UnitCreate(CreateView):
+    model = Unit
+    fields = ['name']

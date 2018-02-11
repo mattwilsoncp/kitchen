@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase, RecipeIngredientCreate, UnitCreate
 
 app_name = 'kitchen'
 urlpatterns = [
@@ -14,14 +14,10 @@ urlpatterns = [
     path('ingredient/<int:pk>/', IngredientUpdate.as_view(), name='ingredient-update'),
     path('ingredient/<int:pk>/delete/', IngredientDelete.as_view(), name='ingredient-delete'),
 
-
     path('recipes/', views.recipes_index, name='recipes-index'),
     path('recipe/add/', RecipeAdd.as_view(), name='recipe-add' ),
     path('recipe/<int:pk>/', RecipeUpdate.as_view(), name='recipe-update'),
     path('recipe/<int:pk>/delete', RecipeDelete.as_view(), name='recipe-delete'),
-
-
-
 
     path('google_calendars/', views.google_calendar_index, name='google_calendar_index'),
     path('calendar_entries/', views.calendar_entry_index, name='calendarEntry-index'),
@@ -35,7 +31,11 @@ urlpatterns = [
     path('shopping_list/<int:pk>/', ShoppingListUpdate.as_view(), name='shoppingList-update'),
 
     path('backupDatabase/', views.backupDatabase, name='backupDatabase'),
-    path('syncToSheets/', views.syncToSheets, name="syncToSheets")
+    path('syncToSheets/', views.syncToSheets, name="syncToSheets"),
+
+    path('recipe_ingredient/add/', RecipeIngredientCreate.as_view(), name='recipe-ingredient-add' ),
+    path('unit/add/', UnitCreate.as_view(), name='unit-add' ),
+
 
 
 ]
