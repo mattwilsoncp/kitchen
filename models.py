@@ -8,6 +8,9 @@ from oauth2client.client import AccessTokenCredentials
 import gspread
 import pdb
 
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 def connect_helper(user):
     c = user.social_auth.get(provider='google-oauth2')
@@ -121,3 +124,17 @@ class Maintenance:
         sh = gc.open("SmartKitchenBackup")
         worksheet = sh.get_worksheets(0)
         worksheet.update_cell(1,2,'GSpread!')
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar_url = models.TextField(max_length=500, blank=True)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

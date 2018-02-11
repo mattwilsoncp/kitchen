@@ -11,7 +11,7 @@ import httplib2
 from apiclient.discovery import build
 from oauth2client.client import AccessTokenCredentials
 
-import gspread
+import pygsheets
 
 
 import pdb
@@ -43,6 +43,11 @@ def ingredients_index(request):
     ingredients = Ingredient.objects.order_by('name')
     template = loader.get_template('kitchen/ingredients_index.html')
     context = { 'ingredients' : ingredients }
+
+    gc = pygsheets.authorize()
+    sh = gc.open('SmartKitchenBackup')
+    wks = sh.sheet1
+    wks.update_cell('A1', "HELLO!")
 
     #user = request.user
     #c = user.social_auth.get(provider='google-oauth2')
