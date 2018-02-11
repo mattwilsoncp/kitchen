@@ -11,8 +11,8 @@ import httplib2
 from apiclient.discovery import build
 from oauth2client.client import AccessTokenCredentials
 
-import pygsheets
 
+from .google_sheets import BackupSheet
 
 import pdb
 
@@ -147,12 +147,6 @@ def model_form_upload(request):
     })
 
 def backupDatabase(request):
-    gc = pygsheets.authorize()
-    sh = gc.open('SmartKitchenBackup')
-    wks = sh.worksheet_by_title("Ingredients")
-
-    ingredients = Ingredient.objects.order_by("name")
-    for i in range(0, ingredients.count()):
-      cellname = "A" + str(i+3)
-      print("cellname:" + cellname)
-      wks.update_cell(cellname, ingredients[i].name)
+    b = BackupSheet()
+    b.backupDatabase()
+    return redirect('home')

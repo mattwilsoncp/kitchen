@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+#### OAuth2 Functions #####################################################################
+
 def connect_helper(user):
     c = user.social_auth.get(provider='google-oauth2')
     access_token = c.tokens
@@ -21,7 +23,6 @@ def connect_helper(user):
     service = build(serviceName='calendar', version='v3', http=http)
     return service
 
-# Create your models here.
 class Category(models.Model):
     category_type = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
@@ -66,7 +67,7 @@ class Recipe(models.Model):
         return reverse('kitchen:recipe-update', kwargs={'pk': self.pk})
 
 
-
+#### Google Calendar Functions ######################################################
 
 class GoogleCalendar(models.Model):
     user = models.CharField(max_length=200)
@@ -102,12 +103,16 @@ class CalendarEntry(models.Model):
         }
         event = service.events().insert(calendarId=self.google_calendar.calendar_id, body=event).execute()
 
+#### Shopping Lists #############################################
+
 class ShoppingList(models.Model):
     date_planned = models.DateField(auto_now=False, auto_now_add=False, editable=True)
     ingredients = models.ManyToManyField(Ingredient)
 
     def get_absolute_url(self):
         return reverse('kitchen:shoppingList-update', kwargs={'pk': self.pk})
+
+#### User Profile ################################################
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
