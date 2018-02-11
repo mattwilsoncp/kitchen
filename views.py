@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-
 from django.http import HttpResponse, Http404
 from django.template import loader
 from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar
@@ -8,13 +7,11 @@ from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
 
 import httplib2
+import pdb
 from apiclient.discovery import build
 from oauth2client.client import AccessTokenCredentials
 
-
 from .google_sheets import BackupSheet
-
-import pdb
 
 def connect_helper(user):
     c = user.social_auth.get(provider='google-oauth2')
@@ -128,8 +125,6 @@ class ShoppingListUpdate(UpdateView):
     model = ShoppingList
     fields = ['date_planned', 'ingredients']
 
-
-
 def home(request):
     return render(request, 'home.html')
 
@@ -149,4 +144,10 @@ def backupDatabase(request):
     b = BackupSheet()
     user = request.user
     b.backupDatabase(user)
+    return redirect('home')
+
+def syncToSheets(request):
+    b = BackupSheet()
+    user = request.user
+    b.syncToSheets(user)
     return redirect('home')

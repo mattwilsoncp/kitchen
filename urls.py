@@ -35,5 +35,7 @@ urlpatterns = [
     path('shopping_list/<int:pk>/', ShoppingListUpdate.as_view(), name='shoppingList-update'),
 
     path('backupDatabase/', views.backupDatabase, name='backupDatabase'),
+    path('syncToSheets/', views.syncToSheets, name="syncToSheets")
+
 
 ]

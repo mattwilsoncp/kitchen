@@ -110,3 +110,30 @@ class BackupSheet():
         ### Maintenance
         wks = sh.worksheet_by_title("Sheet1")
         sh.del_worksheet(wks)
+
+    def syncToSheets(self, user):
+        c = user.social_auth.get(provider='google-oauth2')
+        access_token = c.tokens
+        credentials = AccessTokenCredentials(access_token, 'my-user-agent/1.0')
+
+        gc = pygsheets.authorize(credentials=credentials)
+        sh = gc.open("RestoreKitchen")
+
+        ## Ingredients
+        wks = sh.worksheet_by_title("Ingredients")
+
+        rowcount = 1
+        while True:
+          row = wks.get_row(rowcount)
+          if len(row[0]) == 0:
+              break
+          rowcount = rowcount + 1
+          print(row[0])
+          if rowcount > 2:
+            if len(row) > 1:
+              id = row[1]
+              ingredient = Ingredient.objects.get(pk=id)
+            else:
+              ingredient = Ingredient()
+            ingredient.name = row[0]
+            ingredient.save()
