@@ -58,7 +58,6 @@ class IngredientDelete(DeleteView):
     success_url = reverse_lazy('kitchen:ingredients-index')
 
 
-
 def recipes_index(request):
     recipes = Recipe.objects.order_by('name')
     template = loader.get_template('kitchen/recipes_index.html')
@@ -148,5 +147,6 @@ def model_form_upload(request):
 
 def backupDatabase(request):
     b = BackupSheet()
-    b.backupDatabase()
+    user = request.user
+    b.backupDatabase(user)
     return redirect('home')

@@ -3,11 +3,20 @@ from .models import Ingredient, Category, Recipe
 import pygsheets
 import datetime
 
+import httplib2
+from apiclient.discovery import build
+from oauth2client.client import AccessTokenCredentials
+
 class BackupSheet():
 
-    def backupDatabase(request):
+    def backupDatabase(self, user):
         print("backup in progress...")
-        gc = pygsheets.authorize()
+
+        c = user.social_auth.get(provider='google-oauth2')
+        access_token = c.tokens
+        credentials = AccessTokenCredentials(access_token, 'my-user-agent/1.0')
+
+        gc = pygsheets.authorize(credentials=credentials)
         sh = gc.create("SmartKitchenBackup-" + datetime.datetime.today().strftime('%Y-%m-%d-%H%M'))
 
         ### Ingredients

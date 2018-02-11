@@ -1,21 +1,48 @@
 {% extends "bootstrap4.html" %}
 
 {% block content %}
-<h1>Recipes</h1>
 
-{% if recipes %}
-  <ul class="list-group">
-      {% for recipe in recipes %}
-      <li class="list-group-item">
-          <a href="/kitchen/recipe/{{recipe.id}}/">{{recipe.name}}</a>
-          &nbsp;&nbsp;
-          <a href="/kitchen/recipe/{{recipe.id}}/delete" class="badge badge-danger">Delete</a>
-      </li>
-      {% endfor %}
-  </ul>
-{% else %}
-<p>No recipes are available.</p>
-{% endif %}
+<div class="right_col" role="main">
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Recipes<small>Little tidbits of heaven</small></h2>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="table-responsive">
+                  <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                                <tr>
+                                  <th class="column-title">#</th>
+                                  <th class="column-title">Recipe</th>
+                                  <th class="column-title"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 {% for recipe in recipes %}
+                                    <tr>
+                                      <td class=" ">{{ recipe.id }}</td>
+                                      <td class=" ">
+                                        <a href="/kitchen/recipe/{{recipe.id}}/">{{recipe.name}}</a>
+                                        &nbsp;&nbsp;
+                                        <a href="/kitchen/recipe/{{recipe.id}}/delete" class="badge badge-danger">Delete</a>
+                                      </td>
+                                      <td class=" "></td>
+                                    </tr>
+                                 {% endfor %}
+                              </tbody>
+               </table>
+            </div>
+          </div>
+        </div>
+</div>
+</div>
+</div>
+</div>
 <a href="/kitchen/recipe/add">Add One!</a>
 
 {% endblock %}
