@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase
 
 app_name = 'kitchen'
 urlpatterns = [
@@ -19,7 +19,7 @@ urlpatterns = [
     path('recipe/add/', RecipeAdd.as_view(), name='recipe-add' ),
     path('recipe/<int:pk>/', RecipeUpdate.as_view(), name='recipe-update'),
     path('recipe/<int:pk>/delete', RecipeDelete.as_view(), name='recipe-delete'),
-    
+
 
 
 
@@ -33,5 +33,7 @@ urlpatterns = [
     path('shopping_list/', views.shopping_list_index, name='shoppingList-index'),
     path('shopping_list/add/', ShoppingListAdd.as_view(), name='shoppingList-add' ),
     path('shopping_list/<int:pk>/', ShoppingListUpdate.as_view(), name='shoppingList-update'),
+
+    path('backupDatabase/', views.backupDatabase, name='backupDatabase'),
 
 ]

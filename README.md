@@ -41,4 +41,4 @@ Change to your source directory:
 * pip install django-widget-tweaks
 * pip install psycopg2
 * pip install --upgrade google-api-python-client
-* pip install gspread
+* pip install pygsheets

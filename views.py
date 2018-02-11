@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.http import HttpResponse, Http404
 from django.template import loader
-from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar, Maintenance
+from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
@@ -43,21 +43,6 @@ def ingredients_index(request):
     ingredients = Ingredient.objects.order_by('name')
     template = loader.get_template('kitchen/ingredients_index.html')
     context = { 'ingredients' : ingredients }
-
-    gc = pygsheets.authorize()
-    sh = gc.open('SmartKitchenBackup')
-    wks = sh.sheet1
-    wks.update_cell('A1', "HELLO!")
-
-    #user = request.user
-    #c = user.social_auth.get(provider='google-oauth2')
-    #access_token = c.tokens
-    #credentials = AccessTokenCredentials(access_token, 'my-user-agent/1.0')
-    #http = credentials.authorize(httplib2.Http())
-    #discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?version=v4')
-    #service = build('sheets', 'v4', http=http, discoveryServiceUrl=discoveryUrl)
-
-    #return HttpResponse(user)
     return HttpResponse(template.render(context, request))
 
 class IngredientAdd(CreateView):
@@ -160,3 +145,14 @@ def model_form_upload(request):
     return render(request, 'core/model_form_upload.html', {
         'form': form
     })
+
+def backupDatabase(request):
+    gc = pygsheets.authorize()
+    sh = gc.open('SmartKitchenBackup')
+    wks = sh.worksheet_by_title("Ingredients")
+
+    ingredients = Ingredient.objects.order_by("name")
+    for i in range(0, ingredients.count()):
+      cellname = "A" + str(i+3)
+      print("cellname:" + cellname)
+      wks.update_cell(cellname, ingredients[i].name)
