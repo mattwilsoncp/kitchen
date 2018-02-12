@@ -1,5 +1,5 @@
 
-from .models import Ingredient, Category, Recipe
+from .models import Ingredient, Category, Recipe, RecipeIngredient, Unit
 import pygsheets
 import datetime
 
@@ -161,3 +161,45 @@ class BackupSheet():
             recipe.category_id = row[6]
             recipe.directions = row[7]
             recipe.save()
+
+    def UploadRecipe(self, user):
+        c = user.social_auth.get(provider='google-oauth2')
+        access_token = c.tokens
+        credentials = AccessTokenCredentials(access_token, 'my-user-agent/1.0')
+
+        gc = pygsheets.authorize(credentials=credentials)
+        sh = gc.open("SmartKitchen-RecipeUploader")
+
+        wks = sh.worksheet_by_title("Recipes")
+
+        row = wks.get_row(2)
+        recipe = Recipe()
+        recipe.name = row[0]
+        recipe.description = row[1]
+        recipe.preparation_time = row[2]
+        recipe.preparation_time_units = Unit.objects.get(name=row[3])
+        recipe.cooking_time = row[4]
+        recipe.cooking_time_units = Unit.objects.get(name=row[5])
+        recipe.category = Category.objects.get(name='Dinner')
+        recipe.directions = row[6]
+        recipe.save()
+
+        rowcount = 7
+        while True:
+          row = wks.get_row(rowcount)
+          print(row)
+          if len(row[0]) == 0:
+              break
+          rowcount = rowcount + 1
+
+          unit = Unit.objects.get(name=row[1])
+          ingredient = Ingredient.objects.get(name=row[2])
+
+          ri = RecipeIngredient()
+          ri.recipe_id = recipe.id
+          ri.ingredient_id = ingredient.id
+          ri.unit_id = unit.id
+          ri.amount = row[0]
+          ri.save()
+
+          recipe.ingredients.add(ri)

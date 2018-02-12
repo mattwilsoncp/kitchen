@@ -32,6 +32,7 @@ urlpatterns = [
 
     path('backupDatabase/', views.backupDatabase, name='backupDatabase'),
     path('syncToSheets/', views.syncToSheets, name="syncToSheets"),
+    path('uploadRecipe/', views.uploadRecipe, name="uploadRecipe"),
 
     path('recipe_ingredient/add/', RecipeIngredientCreate.as_view(), name='recipe-ingredient-add' ),
     path('unit/add/', UnitCreate.as_view(), name='unit-add' ),

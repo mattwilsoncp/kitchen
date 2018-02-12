@@ -159,3 +159,9 @@ class RecipeIngredientCreate(CreateView):
 class UnitCreate(CreateView):
     model = Unit
     fields = ['name']
+
+def uploadRecipe(request):
+    b = BackupSheet()
+    user = request.user
+    b.UploadRecipe(user)
+    return redirect('kitchen:recipes-index')

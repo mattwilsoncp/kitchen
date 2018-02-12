@@ -72,9 +72,9 @@ class Recipe(models.Model):
     description = models.CharField(max_length=100)
     #leftover_worthy = models.BooleanField
     preparation_time = models.IntegerField(default=1)
-    preparation_time_units = models.CharField(max_length=10)
+    preparation_time_units = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="preparation_time_unit")
     cooking_time = models.IntegerField(default=1)
-    cooking_time_units = models.CharField(max_length=10)
+    cooking_time_units = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="cooking_time_unit")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     ingredients = models.ManyToManyField(RecipeIngredient)
     directions = models.TextField(default="")
