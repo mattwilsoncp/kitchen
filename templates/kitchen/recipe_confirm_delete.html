@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<form action="" method="post">{% csrf_token %}
+<form method="post" novalidate action="{{ action }}" enctype="multipart/form-data" class="form-horizontal form-label-left">
+  {% csrf_token %}
     <h3>Are you sure you want to delete "{{ object }}"?</h3>
     <input type="submit" value="Confirm" />
 </form>

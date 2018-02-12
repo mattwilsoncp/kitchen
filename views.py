@@ -61,6 +61,12 @@ def recipes_index(request):
     context = { 'recipes' : recipes }
     return HttpResponse(template.render(context, request))
 
+def recipe_review(request, recipe_id):
+    recipe = Recipe.objects.get(pk=recipe_id)
+    ingredients = recipe.ingredients.all()
+    template = loader.get_template('kitchen/recipe_review.html')
+    context = { 'recipe' : recipe, 'ingredients' : ingredients }
+    return HttpResponse(template.render(context, request))
 
 class RecipeAdd(CreateView):
     model = Recipe

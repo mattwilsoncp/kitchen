@@ -53,9 +53,34 @@
             </div>
           {% endblock top_navigation %}
 
-          {% block content %}
-            <!-- {{ content }} -->
-          {% endblock content %}
+          <div class="right_col" role="main">
+            <div class="">
+              <div class="page-title">
+                <div class="title_left">
+                  <h3>{% block page-title %} {% endblock %}</h3>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+
+              <div class="row">
+               <div class="col-md-12">
+                 <div class="x_panel">
+                   <div class="x_title">
+                     <h2>{% block page-sub-title %} {% endblock %}</h2>
+                     <div class="clearfix"></div>
+                   </div>
+
+                   <div class="x_content">
+                     <div class="col-md-9 col-sm-9 col-xs-12">
+                       {% block content %}
+                         <!-- {{ content }} -->
+                       {% endblock content %}
+                     </div>
+                   </div>
+
+                 </div>
+               </div>
+            </div>
 
           {% block footer %}
             <footer>

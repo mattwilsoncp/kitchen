@@ -1,0 +1,41 @@
+{% extends "bootstrap4.html" %}
+{% block page-title %}{{ recipe.name }}{% endblock %}
+{% block page-sub-title %}{{ recipe.description }}
+<small>
+  Prep Time:<strong>{{ recipe.preparation_time }}&nbsp;{{ recipe.preparation_time_units }}</strong>&nbsp;|&nbsp;
+  Cook Time:<strong>{{ recipe.cooking_time }}&nbsp;{{ recipe.cooking_time_units }}</strong>
+</small>
+{% endblock %}
+
+{% block content %}
+
+
+
+  {% include "table_begin.html" %}
+  {% block table_title %}<h2>Ingredients</h2>{% endblock %}
+
+    <thead>
+      <tr class="headings">
+        <tr>
+          <th class="column-title">Amount</th>
+          <th class="column-title">Units</th>
+          <th class="column-title">Ingredient</th>
+        </tr>
+    </thead>
+
+    <tbody>
+      {% for i in ingredients %}
+        <tr>
+          <td class=" ">{{ i.amount }}</td>
+          <td class=" ">{{ i.unit.name }}</td>
+          <td class=" ">{{ i.ingredient.name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+
+    {% include "table_end.html" %}
+
+    <h2>Directions</h2>
+    <p>{{ recipe.directions }}</p>
+
+{% endblock %}

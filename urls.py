@@ -18,13 +18,14 @@ urlpatterns = [
     path('recipe/add/', RecipeAdd.as_view(), name='recipe-add' ),
     path('recipe/<int:pk>/', RecipeUpdate.as_view(), name='recipe-update'),
     path('recipe/<int:pk>/delete', RecipeDelete.as_view(), name='recipe-delete'),
+    path('recipe/<int:recipe_id>/review', views.recipe_review, name='recipe-review'),
 
     path('google_calendars/', views.google_calendar_index, name='google_calendar_index'),
     path('calendar_entries/', views.calendar_entry_index, name='calendarEntry-index'),
     path('calendar_entry/add/', CalendarEntryAdd.as_view(), name='calendarEntry-add' ),
     path('calendar_entry/<int:pk>/', CalendarEntryUpdate.as_view(), name='calendarEntry-update'),
     path('calendar_entry/<int:calendar_entry_id>/gs/', views.calendar_entry_gs, name='calendarEntry-gs'),
-    path('calendar_entry/<int:pk>/delete/', CalendarEntryDelete.as_view(), name='calendarEntry-delete'),
+    path('calendar_entry/<int:recipe_id>/delete/', CalendarEntryDelete.as_view(), name='calendarEntry-delete'),
 
     path('shopping_list/', views.shopping_list_index, name='shoppingList-index'),
     path('shopping_list/add/', ShoppingListAdd.as_view(), name='shoppingList-add' ),
