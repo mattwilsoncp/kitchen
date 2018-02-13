@@ -1,6 +1,7 @@
 {% extends "bootstrap4.html" %}
 
 {% block title %}Ingredients{% endblock %}
+{% block page-title %}Ingredients{% endblock %}
 
 {% block content %}
 
@@ -12,7 +13,8 @@
                                 <tr>
                                   <th class="column-title">#</th>
                                   <th class="column-title">Ingredient</th>
-                                  <th class="column-title"></th>
+                                  <th class="column-title">Barcode</th>
+                                  <th class="column-title">Estimated Cost</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -20,7 +22,8 @@
                                     <tr>
                                       <td class=" ">{{ ingredient.id }}</td>
                                       <td class=" "><a href="/kitchen/ingredient/{{ ingredient.id }}/">{{ ingredient.name }}</a></td>
-                                      <td class=" "></td>
+                                      <td class=" ">{{ ingredient.barcode }}</td>
+                                      <td class=" ">{{ ingredient.estimated_cost }}</td>
                                     </tr>
                                  {% endfor %}
                               </tbody>
