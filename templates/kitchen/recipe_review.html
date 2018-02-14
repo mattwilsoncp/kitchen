@@ -4,6 +4,7 @@
 <small>
   Prep Time:<strong>{{ recipe.preparation_time }}&nbsp;{{ recipe.preparation_time_units }}</strong>&nbsp;|&nbsp;
   Cook Time:<strong>{{ recipe.cooking_time }}&nbsp;{{ recipe.cooking_time_units }}</strong>
+  <a href="/kitchen/recipe/{{ recipe.id }}/" class="btn btn-default">Edit</a>
 </small>
 {% endblock %}
 
