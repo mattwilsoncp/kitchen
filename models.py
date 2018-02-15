@@ -78,7 +78,7 @@ class Recipe(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     ingredients = models.ManyToManyField(RecipeIngredient)
     directions = models.TextField(default="")
-    recipe_photo = models.FileField(upload_to='recipe_photos/', default="")
+    recipe_photo = models.FileField(upload_to='recipe_photos/', blank=True)
 
 
     def __str__(self):

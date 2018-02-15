@@ -10,8 +10,6 @@
 
 {% block content %}
 
-
-
   {% include "table_begin.html" %}
   {% block table_title %}<h2>Ingredients</h2>{% endblock %}
 
@@ -38,5 +36,9 @@
 
     <h2>Directions</h2>
     <p>{{ recipe.directions }}</p>
+
+    {% if recipe.recipe_photo %}
+      <img src="/media/{{ recipe.recipe_photo }}">
+    {% endif %}
 
 {% endblock %}

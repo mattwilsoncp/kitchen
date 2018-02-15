@@ -74,7 +74,7 @@ class RecipeAdd(CreateView):
 
 class RecipeUpdate(UpdateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions','recipe_photo']
 
 class RecipeDelete(DeleteView):
     model = Recipe
@@ -132,7 +132,7 @@ class ShoppingListUpdate(UpdateView):
     fields = ['date_planned', 'ingredients']
 
 def home(request):
-    return render(request, 'home.html')
+    return redirect('kitchen:recipes-index')
 
 def model_form_upload(request):
     if request.method == 'POST':
