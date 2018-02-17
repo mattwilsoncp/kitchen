@@ -1,0 +1,34 @@
+{% extends "bootstrap4.html" %}
+
+{% block content %}
+{% block page-title %}Shopping Lists{% endblock %}
+
+<div class="table-responsive">
+  <table class="table table-striped">
+      <thead>
+                      <tr class="headings">
+                                <tr>
+                                  <th class="column-title">Name</th>
+                                  <th class="column-title"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 {% for sl in shopping_lists %}
+                                    <tr>
+                                      <td class=" "><a href="/kitchen/shopping_list/{{sl.id}}/">{{ sl.name }}</a></td>
+                                      <td class=" ">
+                                        <a href="/kitchen/shopping_list/{{recipe.id}}/delete" class="badge badge-danger">Delete</a>
+                                      </td>
+
+                                    </tr>
+                                 {% endfor %}
+                              </tbody>
+               </table>
+               <a href="/kitchen/shopping_list/add" class="btn btn-default">Add One!</a>
+
+            </div>
+          </div>
+        </div>
+
+
+{% endblock %}

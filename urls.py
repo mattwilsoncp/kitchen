@@ -33,6 +33,7 @@ urlpatterns = [
     path('shopping_list/', views.shopping_list_index, name='shoppingList-index'),
     path('shopping_list/add/', ShoppingListAdd.as_view(), name='shoppingList-add' ),
     path('shopping_list/<int:pk>/', ShoppingListUpdate.as_view(), name='shoppingList-update'),
+    path('shopping_list/<int:id>/print', views.shopping_list_print, name='shoppingList-print'),
 
     path('backupDatabase/', views.backupDatabase, name='backupDatabase'),
     path('syncToSheets/', views.syncToSheets, name="syncToSheets"),

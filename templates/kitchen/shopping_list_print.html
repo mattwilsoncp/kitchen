@@ -1,0 +1,27 @@
+{% extends "bootstrap4.html" %}
+
+{% block page-title %}Shopping List{% endblock %}
+
+{% block content %}
+
+<div class="table-responsive">
+    <table class="table table-striped jambo_table bulk_action">
+      <thead>
+        <tr class="headings">
+                  <tr>
+                    <th class="column-title">Ingredient</th>
+                    <th class="column-title">Estimated Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   {% for ingredient in ingredients %}
+                      <tr>
+                        <td class=" ">{{ ingredient }}</td>
+                        <td class=" "></td>
+                      </tr>
+                   {% endfor %}
+                </tbody>
+ </table>
+</div>
+
+{% endblock %}

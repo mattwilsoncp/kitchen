@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
 
-from .Recipes import RecipeForm, RecipeIngredientForm
+from .Recipes import RecipeForm, RecipeIngredientForm, ShoppingListForm
 
 import httplib2
 import pdb
@@ -159,15 +159,32 @@ class CalendarEntryDelete(DeleteView):
 
 
 def shopping_list_index(request):
+    shopping_lists = ShoppingList.objects.order_by('name')
+    template = loader.get_template('kitchen/shopping_list_index.html')
+    context = { 'shopping_lists' : shopping_lists }
     return HttpResponse(template.render(context, request))
+
+def shopping_list_print(request, id):
+    shopping_list = ShoppingList.objects.get(pk=id)
+    ingredients = []
+    for ce in shopping_list.calendar_entries.all():
+      for recipe in ce.recipes.all():
+          for ringredient in RecipeIngredient.objects.filter(recipe_id=recipe.id):
+            ingredients.append(ringredient.ingredient.name)
+    template = loader.get_template('kitchen/shopping_list_print.html')
+    context = { 'shopping_list' : shopping_list, 'ingredients':ingredients }
+    return HttpResponse(template.render(context, request))
+
 
 class ShoppingListAdd(CreateView):
     model = ShoppingList
-    fields = ['date_planned', 'ingredients']
+    form_class = ShoppingListForm
+    template_name = 'kitchen/shopping_list.html'
 
 class ShoppingListUpdate(UpdateView):
     model = ShoppingList
-    fields = ['date_planned', 'ingredients']
+    form_class = ShoppingListForm
+    template_name = 'kitchen/shopping_list.html'
 
 def home(request):
     return redirect('kitchen:recipes-index')

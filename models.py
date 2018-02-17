@@ -117,6 +117,12 @@ class CalendarEntry(models.Model):
     def get_absolute_url(self):
         return reverse('kitchen:calendarEntry-index')
 
+    class Meta:
+        ordering = ["-date_planned"]
+
+    def __str__(self):
+        return str(self.date_planned)
+
     def set_calendar_date(request,self):
         user = request.user
         service = connect_helper(user)
@@ -137,8 +143,8 @@ class CalendarEntry(models.Model):
 #### Shopping Lists #############################################
 
 class ShoppingList(models.Model):
-    date_planned = models.DateField(auto_now=False, auto_now_add=False, editable=True)
-    ingredients = models.ManyToManyField(Ingredient)
+    name = models.CharField(max_length=200)
+    calendar_entries = models.ManyToManyField(CalendarEntry)
 
     def get_absolute_url(self):
         return reverse('kitchen:shoppingList-update', kwargs={'pk': self.pk})
