@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar, RecipeIngredient, Unit
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
+
+from .Recipes import RecipeForm, RecipeIngredientForm
 
 import httplib2
 import pdb
@@ -63,7 +65,7 @@ def recipes_index(request):
 
 def recipe_review(request, recipe_id):
     recipe = Recipe.objects.get(pk=recipe_id)
-    ingredients = recipe.ingredients.all()
+    ingredients = RecipeIngredient.objects.filter(recipe_id=recipe.id)
     template = loader.get_template('kitchen/recipe_review.html')
     context = { 'recipe' : recipe, 'ingredients' : ingredients }
     return HttpResponse(template.render(context, request))
@@ -74,12 +76,53 @@ class RecipeAdd(CreateView):
 
 class RecipeUpdate(UpdateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','ingredients','directions','recipe_photo']
+    form_class = RecipeForm
+    template_name = 'kitchen/edit_recipe.html'
 
 class RecipeDelete(DeleteView):
     model = Recipe
     success_url = reverse_lazy('kitchen:recipes-index')
 
+def add_recipe_ingredient(request, recipe_id):
+    if request.method == 'POST':
+        form = RecipeIngredientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/kitchen/recipe/" + str(recipe_id) + "/review")
+    else:
+        print(recipe_id)
+        ri = RecipeIngredient()
+        ri.recipe = Recipe.objects.get(pk=recipe_id)
+        ri.unit = Unit.objects.first()
+        ri.ingredient = Ingredient.objects.first()
+        ri.save()
+        form = RecipeIngredientForm(instance=ri)
+    return render(request,'kitchen/add_recipe_ingredient.html',{'form':form})
+
+def edit_recipe_ingredient(request, id):
+    if request.method == 'POST':
+        ri = RecipeIngredient.objects.get(pk=id)
+        form = RecipeIngredientForm(request.POST, instance=ri)
+        if form.is_valid():
+            form.save()
+            return redirect("/kitchen/recipe/" + str(ri.recipe_id) + "/review")
+    else:
+        ri = RecipeIngredient.objects.get(pk=id)
+        form = RecipeIngredientForm(instance=ri)
+    return render(request,'kitchen/add_recipe_ingredient.html',{'form':form})
+
+class RecipeIngredientDelete(DeleteView):
+    model = RecipeIngredient
+    success_url = reverse_lazy('kitchen:recipes-index')
+
+class RecipeIngredientCreate(CreateView):
+    model = RecipeIngredient
+    form_class = RecipeIngredientForm
+
+    def get_form_kwargs(self):
+        kwargs = super(RecipeIngredientCreate, self).get_form_kwargs()
+        kwargs.update(self.kwargs)
+        return kwargs
 
 def google_calendar_index(request):
     user = request.user
@@ -158,9 +201,7 @@ def syncToSheets(request):
     b.syncToSheets(user)
     return redirect('home')
 
-class RecipeIngredientCreate(CreateView):
-    model = RecipeIngredient
-    fields = ['amount', 'unit', 'ingredient']
+
 
 class UnitCreate(CreateView):
     model = Unit

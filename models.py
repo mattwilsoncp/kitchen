@@ -46,6 +46,9 @@ class Ingredient(models.Model):
     def get_absolute_url(self):
         return reverse('kitchen:ingredients-index')
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Unit(models.Model):
     name = models.TextField(max_length=20, blank=True)
@@ -56,16 +59,8 @@ class Unit(models.Model):
     def get_absolute_url(self):
         return reverse('kitchen:recipes-index')
 
-class RecipeIngredient(models.Model):
-    amount = models.TextField(max_length=50, blank=True)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.amount) + " " + self.unit.name + ":  " + self.ingredient.name
-
-    def get_absolute_url(self):
-        return reverse('kitchen:recipes-index')
+    class Meta:
+        ordering = ["name"]
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
@@ -76,16 +71,30 @@ class Recipe(models.Model):
     cooking_time = models.IntegerField(default=1)
     cooking_time_units = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name="cooking_time_unit")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    ingredients = models.ManyToManyField(RecipeIngredient)
+    #ingredients = models.ManyToManyField(RecipeIngredient)
     directions = models.TextField(default="")
     recipe_photo = models.FileField(upload_to='recipe_photos/', blank=True)
-
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('kitchen:recipe-update', kwargs={'pk': self.pk})
+
+    class Meta:
+        ordering = ["name"]
+
+class RecipeIngredient(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    amount = models.TextField(max_length=50, blank=True)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.amount) + " " + self.unit.name + ":  " + self.ingredient.name
+
+    def get_absolute_url(self):
+        return reverse('kitchen:recipes-index')
 
 
 #### Google Calendar Functions ######################################################

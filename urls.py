@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase, RecipeIngredientCreate, UnitCreate
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase, RecipeIngredientCreate, UnitCreate, RecipeIngredientDelete
 
 app_name = 'kitchen'
 urlpatterns = [
@@ -19,6 +19,9 @@ urlpatterns = [
     path('recipe/<int:pk>/', RecipeUpdate.as_view(), name='recipe-update'),
     path('recipe/<int:pk>/delete', RecipeDelete.as_view(), name='recipe-delete'),
     path('recipe/<int:recipe_id>/review', views.recipe_review, name='recipe-review'),
+    path('recipe_ingredient/add/<int:recipe_id>', views.add_recipe_ingredient, name='recipe-ingredient-add' ),
+    path('recipe_ingredient/edit/<int:id>', views.edit_recipe_ingredient, name='recipe-ingredient-edit' ),
+    path('recipe_ingredient/delete/<int:pk>', RecipeIngredientDelete.as_view(), name='recipe-ingredient-delete'),
 
     path('google_calendars/', views.google_calendar_index, name='google_calendar_index'),
     path('calendar_entries/', views.calendar_entry_index, name='calendarEntry-index'),
@@ -35,7 +38,7 @@ urlpatterns = [
     path('syncToSheets/', views.syncToSheets, name="syncToSheets"),
     path('uploadRecipe/', views.uploadRecipe, name="uploadRecipe"),
 
-    path('recipe_ingredient/add/', RecipeIngredientCreate.as_view(), name='recipe-ingredient-add' ),
+
     path('unit/add/', UnitCreate.as_view(), name='unit-add' ),
 
 

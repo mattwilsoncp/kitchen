@@ -4,14 +4,16 @@
 <small>
   Prep Time:<strong>{{ recipe.preparation_time }}&nbsp;{{ recipe.preparation_time_units }}</strong>&nbsp;|&nbsp;
   Cook Time:<strong>{{ recipe.cooking_time }}&nbsp;{{ recipe.cooking_time_units }}</strong>
-  <a href="/kitchen/recipe/{{ recipe.id }}/" class="btn btn-default">Edit</a>
+  <a href="/kitchen/recipe/{{ recipe.id }}/" class="btn btn-primary">Edit</a>
 </small>
 {% endblock %}
 
 {% block content %}
 
   {% include "table_begin.html" %}
-  {% block table_title %}<h2>Ingredients</h2>{% endblock %}
+  {% block table_title %}
+    <h2>Ingredients</h2>
+  {% endblock %}
 
     <thead>
       <tr class="headings">
@@ -19,6 +21,7 @@
           <th class="column-title">Amount</th>
           <th class="column-title">Units</th>
           <th class="column-title">Ingredient</th>
+          <th class="column-title"></th>
         </tr>
     </thead>
 
@@ -28,11 +31,16 @@
           <td class=" ">{{ i.amount }}</td>
           <td class=" ">{{ i.unit.name }}</td>
           <td class=" ">{{ i.ingredient.name }}</td>
+          <td class=" ">
+            <a href="/kitchen/recipe_ingredient/delete/{{ i.id }}" class="btn btn-danger">Delete</a>
+            <a href="/kitchen/recipe_ingredient/edit/{{ i.id }}" class="btn btn-success">Edit</a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>
 
     {% include "table_end.html" %}
+    <a href="/kitchen/recipe_ingredient/add/{{ recipe.id }}" class="btn btn-success">Add Ingredient</a>
 
     <h2>Directions</h2>
     <p>{{ recipe.directions }}</p>
