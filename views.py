@@ -72,7 +72,7 @@ def recipe_review(request, recipe_id):
 
 class RecipeAdd(CreateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions']
+    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions','recipe_url']
 
 class RecipeUpdate(UpdateView):
     model = Recipe

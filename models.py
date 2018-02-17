@@ -74,6 +74,7 @@ class Recipe(models.Model):
     #ingredients = models.ManyToManyField(RecipeIngredient)
     directions = models.TextField(default="")
     recipe_photo = models.FileField(upload_to='recipe_photos/', blank=True)
+    recipe_url = models.TextField(blank=True, max_length=200)
 
     def __str__(self):
         return self.name
@@ -86,7 +87,7 @@ class Recipe(models.Model):
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    amount = models.TextField(max_length=50, blank=True)
+    amount = models.FloatField(blank=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
 

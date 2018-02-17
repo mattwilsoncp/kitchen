@@ -1,6 +1,6 @@
 {% extends "bootstrap4.html" %}
-
-
+{% block page-title %}{{ recipe.name }}{% endblock %}
+{% block page-sub-title %}<a href="/kitchen/recipe/{{ recipe.id }}/review">Back to Review</a>{% endblock %}
 
 {% block content %}
 

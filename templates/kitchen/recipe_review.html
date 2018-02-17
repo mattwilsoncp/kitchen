@@ -4,12 +4,12 @@
 <small>
   Prep Time:<strong>{{ recipe.preparation_time }}&nbsp;{{ recipe.preparation_time_units }}</strong>&nbsp;|&nbsp;
   Cook Time:<strong>{{ recipe.cooking_time }}&nbsp;{{ recipe.cooking_time_units }}</strong>
-  <a href="/kitchen/recipe/{{ recipe.id }}/" class="btn btn-primary">Edit</a>
-</small>
+</p>
+<a href="{{ recipe.recipe_url }}" target="_blank">{{ recipe.recipe_url }}</a></small>
 {% endblock %}
 
 {% block content %}
-
+<a href="/kitchen/recipe/{{ recipe.id }}/" class="btn btn-primary">Edit</a>
   {% include "table_begin.html" %}
   {% block table_title %}
     <h2>Ingredients</h2>
