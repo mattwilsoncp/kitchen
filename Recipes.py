@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recipe, Unit, Category, RecipeIngredient
+from .models import Recipe, Unit, Category, RecipeIngredient, Ingredient
 
 class RecipeForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -16,9 +16,12 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = '__all__'
-        
-class RecipeIngredientForm(forms.ModelForm):
 
+class RecipeIngredientForm(forms.ModelForm):
+    amount = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
+    recipe = forms.ModelChoiceField(queryset=Recipe.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
+    unit = forms.ModelChoiceField(queryset=Unit.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
+    ingredient = forms.ModelChoiceField(queryset=Ingredient.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
     class Meta:
         model = RecipeIngredient
         fields = '__all__'

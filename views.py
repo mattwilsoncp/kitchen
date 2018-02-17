@@ -90,14 +90,9 @@ def add_recipe_ingredient(request, recipe_id):
             form.save()
             return redirect("/kitchen/recipe/" + str(recipe_id) + "/review")
     else:
-        print(recipe_id)
-        ri = RecipeIngredient()
-        ri.recipe = Recipe.objects.get(pk=recipe_id)
-        ri.unit = Unit.objects.first()
-        ri.ingredient = Ingredient.objects.first()
-        ri.save()
-        form = RecipeIngredientForm(instance=ri)
-    return render(request,'kitchen/add_recipe_ingredient.html',{'form':form})
+        recipe = Recipe.objects.get(pk=recipe_id)
+        form = RecipeIngredientForm(initial={'recipe':recipe}, instance=RecipeIngredient)
+    return render(request,'kitchen/add_recipe_ingredient.html',{'form':form,'recipe':recipe})
 
 def edit_recipe_ingredient(request, id):
     if request.method == 'POST':
@@ -109,7 +104,7 @@ def edit_recipe_ingredient(request, id):
     else:
         ri = RecipeIngredient.objects.get(pk=id)
         form = RecipeIngredientForm(instance=ri)
-    return render(request,'kitchen/add_recipe_ingredient.html',{'form':form})
+    return render(request,'kitchen/add_recipe_ingredient.html',{'form':form,'recipe':ri.recipe})
 
 class RecipeIngredientDelete(DeleteView):
     model = RecipeIngredient
