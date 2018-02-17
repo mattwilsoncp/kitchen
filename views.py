@@ -219,6 +219,18 @@ class UnitCreate(CreateView):
     model = Unit
     fields = ['name']
 
+class UnitUpdate(CreateView):
+    model = Unit
+    fields = ['name']
+
+def unit_index(request):
+    units = Unit.objects.order_by('name')
+    template = loader.get_template('kitchen/unit_index.html')
+    context = { 'units' : units }
+    return HttpResponse(template.render(context, request))
+
+
+
 def uploadRecipe(request):
     b = BackupSheet()
     user = request.user

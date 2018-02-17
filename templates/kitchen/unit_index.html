@@ -1,0 +1,27 @@
+{% extends "bootstrap4.html" %}
+
+{% block title %}Units{% endblock %}
+{% block page-title %}{% endblock %}
+
+{% block content %}
+
+              <div class="table-responsive">
+                  <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                                <tr>
+                                  <th class="column-title">Unit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 {% for unit in units %}
+                                    <tr>
+                                      <td class=" "><a href="/kitchen/unit/edit/{{unit.id}}">{{ unit.name }}</a></td>
+                                    </tr>
+                                 {% endfor %}
+                              </tbody>
+               </table>
+            </div>
+<a href="/kitchen/unit/add" class="btn btn-default">Add One!</a>
+
+{% endblock %}

@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase, RecipeIngredientCreate, UnitCreate, RecipeIngredientDelete
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase, RecipeIngredientCreate, UnitCreate, RecipeIngredientDelete, UnitUpdate
 
 app_name = 'kitchen'
 urlpatterns = [
@@ -39,8 +39,10 @@ urlpatterns = [
     path('syncToSheets/', views.syncToSheets, name="syncToSheets"),
     path('uploadRecipe/', views.uploadRecipe, name="uploadRecipe"),
 
-
+    path('units/', views.unit_index, name='unit-index' ),
     path('unit/add/', UnitCreate.as_view(), name='unit-add' ),
+    path('unit/edit/<int:pk>', UnitUpdate.as_view(), name='unit-update' ),
+
 
 
 
