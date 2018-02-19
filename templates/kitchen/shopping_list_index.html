@@ -11,6 +11,7 @@
                                 <tr>
                                   <th class="column-title">Name</th>
                                   <th class="column-title"></th>
+                                  <th class="column-title"></th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -18,9 +19,11 @@
                                     <tr>
                                       <td class=" "><a href="/kitchen/shopping_list/{{sl.id}}/">{{ sl.name }}</a></td>
                                       <td class=" ">
-                                        <a href="/kitchen/shopping_list/{{recipe.id}}/delete" class="badge badge-danger">Delete</a>
+                                        <a href="/kitchen/shopping_list/{{sl.id}}/delete" class="badge badge-danger">Delete</a>
                                       </td>
-
+                                      <td class=" ">
+                                        <a href="/kitchen/shopping_list/{{sl.id}}/print" class="badge badge-success">Export List</a>
+                                      </td>
                                     </tr>
                                  {% endfor %}
                               </tbody>

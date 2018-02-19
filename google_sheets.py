@@ -1,5 +1,5 @@
 
-from .models import Ingredient, Category, Recipe, RecipeIngredient, Unit
+from .models import Ingredient, Category, Recipe, RecipeIngredient, Unit, ShoppingList
 import pygsheets
 import datetime
 
@@ -8,6 +8,39 @@ from apiclient.discovery import build
 from oauth2client.client import AccessTokenCredentials
 
 class BackupSheet():
+
+    def exportShoppingList(self, user, id):
+        c = user.social_auth.get(provider='google-oauth2')
+        access_token = c.tokens
+        credentials = AccessTokenCredentials(access_token, 'my-user-agent/1.0')
+
+        gc = pygsheets.authorize(credentials=credentials)
+        sh = gc.create("ShoppingList-" + datetime.datetime.today().strftime('%Y-%m-%d-%H%M'))
+
+        sh.add_worksheet("Shopping List")
+        wks = sh.worksheet_by_title("Shopping List")
+
+        shopping_list = ShoppingList.objects.get(pk=id)
+        ingredients = []
+        for ce in shopping_list.calendar_entries.all():
+          for recipe in ce.recipes.all():
+              for ringredient in RecipeIngredient.objects.filter(recipe_id=recipe.id):
+                ingredients.append([ringredient.ingredient.name])
+
+        wks.update_cell('A1','Ingredient Name')
+
+        cell = wks.cell('A1')
+        cell.text_format['bold'] = True
+        cell.text_format['underline'] = True
+        cell.update()
+
+        wks.update_cells("A2:A", ingredients)
+
+        ### Maintenance
+        wks = sh.worksheet_by_title("Sheet1")
+        sh.del_worksheet(wks)
+
+        
 
     def backupDatabase(self, user):
         print("backup in progress...")

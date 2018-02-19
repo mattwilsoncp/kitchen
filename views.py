@@ -247,8 +247,6 @@ def syncToSheets(request):
     b.syncToSheets(user)
     return redirect('home')
 
-
-
 class UnitCreate(CreateView):
     model = Unit
     form_class = UnitForm
@@ -265,12 +263,16 @@ def unit_index(request):
     context = { 'units' : units }
     return HttpResponse(template.render(context, request))
 
-
-
 def uploadRecipe(request):
     b = BackupSheet()
     user = request.user
     b.UploadRecipe(user)
+    return redirect('kitchen:recipes-index')
+
+def exportShoppingList(request, id):
+    b = BackupSheet()
+    user = request.user
+    b.exportShoppingList(user, id)
     return redirect('kitchen:recipes-index')
 
 def maintenance(request):
