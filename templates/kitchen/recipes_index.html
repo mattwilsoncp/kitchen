@@ -13,7 +13,7 @@
       <img class="card-img-top" src="/media/{{ recipe.recipe_photo }}" alt="<<{{ recipe.name }}>>">
       <div class="card-body">
         <h4 class="card-title">{{ recipe.name }}</h4>
-        <p class="card-text">{{ recipe.description }}</br>{{ recipe.recipe_url }}</p>
+        <p class="card-text">{{ recipe.description }}</br><a href="{{ recipe.recipe_url }}" target="_blank">{{ recipe.recipe_url }}</a></p>
         <a href="/kitchen/recipe/{{ recipe.id }}/review" class="btn btn-primary">Review</a>
       </div>
     </div>

@@ -15,6 +15,10 @@ from oauth2client.client import AccessTokenCredentials
 
 from .google_sheets import BackupSheet
 
+def logout(request):
+    return redirect('/login')
+
+
 def connect_helper(user):
     c = user.social_auth.get(provider='google-oauth2')
     access_token = c.tokens
@@ -34,7 +38,7 @@ class CategoryCreate(CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'kitchen/category_form.html'
-    
+
 class CategoryUpdate(UpdateView):
     model = Category
     form_class = CategoryForm
