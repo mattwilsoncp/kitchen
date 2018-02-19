@@ -52,7 +52,8 @@ def ingredients_index(request):
 
 class IngredientAdd(CreateView):
     model = Ingredient
-    fields = ['name','generic_name','barcode','estimated_cost','quantity_on_hand']
+    form_class = IngredientForm
+    template_name = 'kitchen/ingredient_form.html'
 
 class IngredientUpdate(UpdateView):
     model = Ingredient
@@ -82,7 +83,7 @@ class RecipeAdd(CreateView):
     model = Recipe
     form_class = RecipeForm
     template_name = 'kitchen/edit_recipe.html'
-    
+
 class RecipeUpdate(UpdateView):
     model = Recipe
     form_class = RecipeForm
