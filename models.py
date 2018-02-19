@@ -154,6 +154,10 @@ class ShoppingList(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar_url = models.TextField(max_length=500, blank=True)
+    site_permission = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
 
 
 @receiver(post_save, sender=User)

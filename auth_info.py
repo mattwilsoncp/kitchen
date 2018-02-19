@@ -15,3 +15,8 @@ def redirect_if_no_refresh_token(backend, response, social, *args, **kwargs):
        response.get('refresh_token') is None and \
        social.extra_data.get('refresh_token') is None:
         return redirect('/auth/login/google-oauth2?approval_prompt=force')
+
+def check_user_permission(user, response, *args, **kwargs):
+    print(user.profile.site_permission)
+    if not user.profile.site_permission:
+        return redirect('/logout')
