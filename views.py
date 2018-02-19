@@ -80,8 +80,9 @@ def recipe_review(request, recipe_id):
 
 class RecipeAdd(CreateView):
     model = Recipe
-    fields = ['name','description','preparation_time','preparation_time_units','cooking_time','cooking_time_units','category','directions','recipe_url']
-
+    form_class = RecipeForm
+    template_name = 'kitchen/edit_recipe.html'
+    
 class RecipeUpdate(UpdateView):
     model = Recipe
     form_class = RecipeForm

@@ -4,6 +4,10 @@
 {% block content %}
 
 <div class="row">
+  <a href="/kitchen/recipe/add" class="btn btn-default">Add Recipe</a>
+</div>
+
+<div class="row">
   {% for recipe in recipes %}
     {% if forloop.counter0|divisibleby:3 %}
       </div>
