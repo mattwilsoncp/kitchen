@@ -1,5 +1,6 @@
 from django import forms
-from .models import Recipe, Unit, Category, RecipeIngredient, Ingredient, ShoppingList, CalendarEntry
+from .models import Recipe, Unit, Category, RecipeIngredient, Ingredient, ShoppingList, CalendarEntry, GoogleCalendar
+from django.contrib.auth.models import User
 
 class RecipeForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -55,3 +56,16 @@ class UnitForm(forms.ModelForm):
     class Meta:
         model = Unit
         fields = '__all__'
+
+class CalendarEntryForm(forms.ModelForm):
+    date_planned = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    recipes = forms.ModelMultipleChoiceField(queryset=Recipe.objects.all(), widget=forms.SelectMultiple(attrs={'class':'form-control'}))
+    
+    class Meta:
+        model = CalendarEntry
+        fields = '__all__'
+
+    def __init__(self, user, *args, **kwargs):
+        super(CalendarEntryForm, self).__init__(*args, **kwargs)
+        self.user = user
+        google_calendar = forms.ModelChoiceField(queryset=GoogleCalendar.objects.filter(user__exact=self.user._meta.get_field('id')).all(), widget=forms.Select(attrs={'class':'form-control'}))

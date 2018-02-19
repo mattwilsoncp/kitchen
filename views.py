@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
 
-from .Recipes import RecipeForm, RecipeIngredientForm, ShoppingListForm, IngredientForm, CategoryForm, UnitForm
+from .Recipes import RecipeForm, RecipeIngredientForm, ShoppingListForm, IngredientForm, CategoryForm, UnitForm, CalendarEntryForm
 
 import httplib2
 import pdb
@@ -26,6 +26,14 @@ def connect_helper(user):
     http = httplib2.Http()
     http = credentials.authorize(http)
     service = build(serviceName='calendar', version='v3', http=http)
+
+    #Build list of calendars
+    [google_calendar.delete() for google_calendar in GoogleCalendar.objects.filter(user__exact=user).all()]
+    calendar_list = service.calendarList().list().execute()
+    for calendar_list_entry in calendar_list['items']:
+      google_calendar = GoogleCalendar(user=request.user, calendar_name=calendar_list_entry['summary'], calendar_id=calendar_list_entry['id'])
+      google_calendar.save()
+
     return service
 
 def category_index(request):
@@ -140,7 +148,7 @@ def google_calendar_index(request):
         google_calendar = GoogleCalendar(user=request.user, calendar_name=calendar_list_entry['summary'], calendar_id=calendar_list_entry['id'])
         google_calendar.save()
 
-    google_calendars = GoogleCalendar.objects.order_by('id')
+    google_calendars = GoogleCalendar.objects.filter(user__exact=user).order_by('id')
     template = loader.get_template('kitchen/google_calendar_index.html')
     context = { 'google_calendars' : google_calendars}
     return HttpResponse(template.render(context, request))
@@ -155,13 +163,29 @@ def calendar_entry_gs(request, calendar_entry_id):
     CalendarEntry.set_calendar_date(request, CalendarEntry.objects.get(pk=calendar_entry_id))
     return redirect('kitchen:calendarEntry-index')
 
-class CalendarEntryAdd(CreateView):
-    model = CalendarEntry
-    fields = ['date_planned', 'recipes', 'google_calendar']
+def CalendarEntryAdd(request):
+    google_calendars = GoogleCalendar.objects.filter(user__exact=user).all()
+    template = loader.get_template('kitchen/calendarentry_form.html')
+    context = { 'calendar_entries' : calendar_entries, 'google_calendars': google_calendars }
+    return HttpResponse(template.render(context, request))
+
+# def CalendarEntryUpdate(request,id):
+#     calendar_entries = CalendarEntry.objects.get(pk=id)
+#     google_calendars = GoogleCalendar.objects.filter(user__exact=request.user).all()
+#     template = loader.get_template('kitchen/calendarentry_form.html')
+#     context = { 'calendar_entries' : calendar_entries, 'google_calendars': google_calendars }
+#     return HttpResponse(template.render(context, request))
 
 class CalendarEntryUpdate(UpdateView):
     model = CalendarEntry
-    fields = ['date_planned', 'recipes', 'google_calendar']
+    form_class = CalendarEntryForm
+    template_file = "kitchen/calendarentry_form.html"
+    user = None
+
+    def get_form_kwargs(self):
+        kwargs = super(CalendarEntryUpdate, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 class CalendarEntryDelete(DeleteView):
     model = CalendarEntry
