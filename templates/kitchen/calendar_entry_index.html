@@ -1,7 +1,9 @@
-{% extends "bootstrap4.html" %}
-{% block page-title %}Calendar Entries{% endblock %}
+{% extends "material_kit.html" %}
+{% block title %}Calendar Entries{% endblock %}
 
 {% block content %}
+<div class="card">
+  <div class="card-body">
                   <table class="table table-striped jambo_table bulk_action">
                     <thead>
                       <tr class="headings">
@@ -34,5 +36,6 @@
                </table>
 
 <a href="/kitchen/calendar_entry/add" class="btn btn-default">Add One!</a>
-
+</div>
+</div>
 {% endblock %}

@@ -1,21 +1,19 @@
-{% extends "bootstrap4.html" %}
-{% block page-title %}{{ recipe.name }}{% endblock %}
-{% block page-sub-title %}{{ recipe.description }}
-<small>
-  Prep Time:<strong>{{ recipe.preparation_time }}&nbsp;{{ recipe.preparation_time_units }}</strong>&nbsp;|&nbsp;
-  Cook Time:<strong>{{ recipe.cooking_time }}&nbsp;{{ recipe.cooking_time_units }}</strong>
-</p>
-<a href="{{ recipe.recipe_url }}" target="_blank">{{ recipe.recipe_url }}</a></small>
-{% endblock %}
+{% extends "material_kit.html" %}
 
+
+{% block title %}Recipe{% endblock %}
 {% block content %}
-<a href="/kitchen/recipe/{{ recipe.id }}/" class="btn btn-primary">Edit</a>
-  {% include "table_begin.html" %}
-  {% block table_title %}
-    <h2>Ingredients</h2>
-  {% endblock %}
 
-    <thead>
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">{{ recipe.name }}</h4>
+    <h6 class="card-subtitle mb-2 text-muted">Prep Time:<strong>{{ recipe.preparation_time }}&nbsp;{{ recipe.preparation_time_units }}</strong>&nbsp;|&nbsp;
+    Cook Time:<strong>{{ recipe.cooking_time }}&nbsp;{{ recipe.cooking_time_units }}</strong></h6>
+    <p class="card-text"><a href="{{ recipe.recipe_url }}" target="_blank">{{ recipe.recipe_url }}</a></p>
+<a href="/kitchen/recipe/{{ recipe.id }}/" class="btn btn-warning">Edit</a>
+{% include "table_begin.html" %}
+
+<thead>
       <tr class="headings">
         <tr>
           <th class="column-title">Amount</th>
@@ -32,21 +30,26 @@
           <td class=" ">{{ i.unit.name }}</td>
           <td class=" ">{{ i.ingredient.name }}</td>
           <td class=" ">
-            <a href="/kitchen/recipe_ingredient/delete/{{ i.id }}" class="btn btn-danger">Delete</a>
-            <a href="/kitchen/recipe_ingredient/edit/{{ i.id }}" class="btn btn-success">Edit</a>
+            <a href="/kitchen/recipe_ingredient/delete/{{ i.id }}">Delete</a>&nbsp;&nbsp;|&nbsp;
+            <a href="/kitchen/recipe_ingredient/edit/{{ i.id }}">Edit</a>
           </td>
         </tr>
       {% endfor %}
     </tbody>
 
     {% include "table_end.html" %}
+
     <a href="/kitchen/recipe_ingredient/add/{{ recipe.id }}" class="btn btn-success">Add Ingredient</a>
 
-    <h2>Directions</h2>
-    <p>{{ recipe.directions }}</p>
+        <h2>Directions</h2>
+        <h3>{{ recipe.directions }}</h3>
 
-    {% if recipe.recipe_photo %}
-      <img src="/media/{{ recipe.recipe_photo }}">
-    {% endif %}
+        {% if recipe.recipe_photo %}
+          <img src="/media/{{ recipe.recipe_photo }}">
+        {% endif %}
+
+  </div>
+</div>
+
 
 {% endblock %}

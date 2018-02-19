@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+      {% block meta %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      {% endblock meta %}
+
+      <title>Smart Kitchen | {% block title %}{% endblock %}</title>
+
+      {% block stylesheets %}
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/static/material_kit/css/material-kit.css">
+      {% endblock stylesheets %}
+
+      {% endblock head %}
+    </head>
+
+<body>
+
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-success">
+    <div class="container">
+    <a class="navbar-brand" href="#">Smart Kitchen</a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/kitchen/recipes"><i class="material-icons left">format_list_numbered</i>Recipes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/kitchen/calendar_entries"><i class="material-icons left">access_alarm</i>Dates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/kitchen/shopping_lists"><i class="material-icons left">add_shopping_cart</i>Shopping</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/kitchen/maintenance"><i class="material-icons left">build</i>Maintenance</a>
+        </li>
+
+      </ul>
+    </div>
+    </div>
+  </nav>
+
+
+  <div class="main main-raised" style="background-color:gray;">
+    <div class="section section-basic">
+      <div class="container">
+        <div class="title"></div>
+  {% block content %}
+
+  {% endblock content %}
+    </div>
+  </div>
+</div>
+</div>
+
+  <!--   Core JS Files   -->
+  <script src="/static/material_kit/js/core/jquery.min.js"></script>
+  <script src="/static/material_kit/js/core/popper.min.js"></script>
+  <script src="/static/material_kit/js/bootstrap-material-design.js"></script>
+
+</body>
+</html>

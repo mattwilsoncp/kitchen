@@ -1,39 +1,23 @@
-{% extends "bootstrap4.html" %}
+{% extends "material_kit.html" %}
 
+{% block title %}Recipes{% endblock %}
 {% block content %}
-{% block page-title %}Recipes{% endblock %}
 
-<div class="table-responsive">
-  <table class="table table-striped">
-      <thead>
-                      <tr class="headings">
-                                <tr>
-                                  <th class="column-title">#</th>
-                                  <th class="column-title">Recipe</th>
-                                  <th class="column-title"></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                 {% for recipe in recipes %}
-                                    <tr>
-                                      <td class=" ">{{ recipe.id }}</td>
-                                      <td class=" ">
-                                        <a href="/kitchen/recipe/{{recipe.id}}/">{{recipe.name}}</a>
-                                        &nbsp;&nbsp;
-                                        <a href="/kitchen/recipe/{{recipe.id}}/review" class="badge badge-primary">Review</a>
-                                        &nbsp;&nbsp;
-                                        <a href="/kitchen/recipe/{{recipe.id}}/delete" class="badge badge-danger">Delete</a>
-                                      </td>
-                                      <td class=" "></td>
-                                    </tr>
-                                 {% endfor %}
-                              </tbody>
-               </table>
-               <a href="/kitchen/recipe/add" class="btn btn-default">Add One!</a>
-
-            </div>
-          </div>
-        </div>
-
+<div class="row">
+  {% for recipe in recipes %}
+    {% if forloop.counter0|divisibleby:3 %}
+      </div>
+      <div class="row">
+    {% endif %}
+    <div class="card" style="width: 30%;">
+      <img class="card-img-top" src="/media/{{ recipe.recipe_photo }}" alt="<<{{ recipe.name }}>>">
+      <div class="card-body">
+        <h4 class="card-title">{{ recipe.name }}</h4>
+        <p class="card-text">{{ recipe.description }}</br>{{ recipe.recipe_url }}</p>
+        <a href="/kitchen/recipe/{{ recipe.id }}/review" class="btn btn-primary">Review</a>
+      </div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  {% endfor %}
 
 {% endblock %}
