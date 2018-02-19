@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
 
-from .Recipes import RecipeForm, RecipeIngredientForm, ShoppingListForm
+from .Recipes import RecipeForm, RecipeIngredientForm, ShoppingListForm, IngredientForm, CategoryForm, UnitForm
 
 import httplib2
 import pdb
@@ -32,11 +32,13 @@ def category_index(request):
 
 class CategoryCreate(CreateView):
     model = Category
-    fields = ['category_type','name']
-
+    form_class = CategoryForm
+    template_name = 'kitchen/category_form.html'
+    
 class CategoryUpdate(UpdateView):
     model = Category
-    fields = ['category_type','name']
+    form_class = CategoryForm
+    template_name = 'kitchen/category_form.html'
 
 def ingredients_index(request):
     ingredients = Ingredient.objects.order_by('name')
@@ -50,7 +52,9 @@ class IngredientAdd(CreateView):
 
 class IngredientUpdate(UpdateView):
     model = Ingredient
-    fields = ['name','generic_name','barcode','estimated_cost','quantity_on_hand']
+    form_class = IngredientForm
+    template_name = 'kitchen/ingredient_form.html'
+
 
 class IngredientDelete(DeleteView):
     model = Ingredient
@@ -217,11 +221,13 @@ def syncToSheets(request):
 
 class UnitCreate(CreateView):
     model = Unit
-    fields = ['name']
+    form_class = UnitForm
+    template_name = 'kitchen/unit_form.html'
 
 class UnitUpdate(CreateView):
     model = Unit
-    fields = ['name']
+    form_class = UnitForm
+    template_name = 'kitchen/unit_form.html'
 
 def unit_index(request):
     units = Unit.objects.order_by('name')
@@ -236,3 +242,8 @@ def uploadRecipe(request):
     user = request.user
     b.UploadRecipe(user)
     return redirect('kitchen:recipes-index')
+
+def maintenance(request):
+    template = loader.get_template('kitchen/maintenance.html')
+    context = {}
+    return HttpResponse(template.render(context, request))

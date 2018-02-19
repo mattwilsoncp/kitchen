@@ -1,11 +1,10 @@
-{% extends "bootstrap4.html" %}
+{% extends "material_kit.html" %}
 
 {% block title %}Ingredients{% endblock %}
-{% block page-title %}Ingredients{% endblock %}
 
 {% block content %}
-
-{% if ingredients %}
+<div class="card">
+  <div class="card-body">
               <div class="table-responsive">
                   <table class="table table-striped jambo_table bulk_action">
                     <thead>
@@ -30,6 +29,6 @@
                </table>
             </div>
 <a href="/kitchen/ingredients/add" class="btn btn-default">Add One!</a>
-{% endif %}
-
+</div>
+</div>
 {% endblock %}

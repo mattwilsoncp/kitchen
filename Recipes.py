@@ -11,7 +11,7 @@ class RecipeForm(forms.ModelForm):
     cooking_time_units = forms.ModelChoiceField(queryset=Unit.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
     directions = forms.CharField(required=False,widget=forms.TextInput(attrs={'class':'form-control'}))
     category = forms.ModelChoiceField(queryset=Category.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
-    recipe_photo = forms.FileField(widget=forms.ClearableFileInput(attrs={'class':'form-control'}))
+    recipe_photo = forms.FileField(widget=forms.ClearableFileInput(attrs={'class':'form-control file'}))
 
     class Meta:
         model = Recipe
@@ -28,7 +28,30 @@ class RecipeIngredientForm(forms.ModelForm):
 
 class ShoppingListForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    calendar_entries = forms.ModelMultipleChoiceField(queryset=CalendarEntry.objects.all(), widget=forms.SelectMultiple(attrs={'class':'form-control', 'size':'14'}))
+    calendar_entries = forms.ModelMultipleChoiceField(queryset=CalendarEntry.objects.all(), widget=forms.SelectMultiple(attrs={'class':'form-control', 'height':'150px'}))
     class Meta:
         model = ShoppingList
+        fields = '__all__'
+
+class IngredientForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    generic_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    barcode = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    estimated_cost = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    quantity_on_hand = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    class Meta:
+        model = Ingredient
+        fields = '__all__'
+
+class CategoryForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    category_type = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+class UnitForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    class Meta:
+        model = Unit
         fields = '__all__'

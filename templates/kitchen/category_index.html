@@ -1,23 +1,16 @@
-{% extends "bootstrap4.html" %}
+{% extends "material_kit.html" %}
+
+{% block title %}Categories{% endblock %}
 
 {% block content %}
-
-<div class="right_col" role="main">
-      <div class="clearfix"></div>
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-              <h2>Categories<small> </small></h2>
-              <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-              <div class="table-responsive">
-                  <table class="table table-striped jambo_table bulk_action">
-                    <thead>
-                      <tr class="headings">
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-striped jambo_table bulk_action">
+          <thead>
+            <tr class="headings">
                                 <tr>
-                                  <th class="column-title">#</th>
+                                  <th class="column-title">Type</th>
                                   <th class="column-title">Category</th>
                                   <th class="column-title"></th>
                                 </tr>
@@ -25,22 +18,28 @@
                               <tbody>
                                  {% for category in categories %}
                                     <tr>
-                                      <td class=" ">{{ category.id }}</td>
+                                      <td class=" ">{{ category.category_type }}</td>
+                                      <td class=" ">{{ category.name }}</td>
                                       <td class=" ">
-                                        <a href="/kitchen/category/{{category.id}}/">{{category.name}}</a>
+                                        <a href="/kitchen/category/{{category.id}}/">Edit</a>
                                       </td>
                                       <td class=" "></td>
                                     </tr>
                                  {% endfor %}
                               </tbody>
                </table>
+               <a href="/kitchen/category/add" class="btn btn-default">Add One!</a>
             </div>
           </div>
         </div>
 </div>
 </div>
+
 </div>
 </div>
-<a href="/kitchen/category/add">Add One!</a>
+
+</div>
+</div>
+
 
 {% endblock %}

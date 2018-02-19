@@ -1,0 +1,32 @@
+{% extends "material_kit.html" %}
+{% block title %}Maintenance{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="card" style="width: 30%;">
+      <div class="card-body">
+        <h4 class="card-title">Ingredients&nbsp;<i class="material-icons left">content_paste</i></h4>
+        <p class="card-text">Manage the ingredients inventory</p>
+        <a href="/kitchen/ingredients" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="card" style="width: 30%;">
+      <div class="card-body">
+        <h4 class="card-title">Categories&nbsp;<i class="material-icons left">clear_all</i></h4>
+        <p class="card-text">Manage the categories</p>
+        <a href="/kitchen/categories" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="card" style="width: 30%;">
+      <div class="card-body">
+        <h4 class="card-title">Units&nbsp;<i class="material-icons left">straighten</i></h4>
+        <p class="card-text">Manage the units</p>
+        <a href="/kitchen/units" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

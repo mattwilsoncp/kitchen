@@ -30,7 +30,7 @@ urlpatterns = [
     path('calendar_entry/<int:calendar_entry_id>/gs/', views.calendar_entry_gs, name='calendarEntry-gs'),
     path('calendar_entry/<int:recipe_id>/delete/', CalendarEntryDelete.as_view(), name='calendarEntry-delete'),
 
-    path('shopping_list/', views.shopping_list_index, name='shoppingList-index'),
+    path('shopping_lists/', views.shopping_list_index, name='shoppingList-index'),
     path('shopping_list/add/', ShoppingListAdd.as_view(), name='shoppingList-add' ),
     path('shopping_list/<int:pk>/', ShoppingListUpdate.as_view(), name='shoppingList-update'),
     path('shopping_list/<int:id>/print', views.shopping_list_print, name='shoppingList-print'),
@@ -43,7 +43,7 @@ urlpatterns = [
     path('unit/add/', UnitCreate.as_view(), name='unit-add' ),
     path('unit/edit/<int:pk>', UnitUpdate.as_view(), name='unit-update' ),
 
-
+    path('maintenance/', views.maintenance, name='maintenance' ),
 
 
 ]
