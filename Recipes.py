@@ -60,7 +60,7 @@ class UnitForm(forms.ModelForm):
 class CalendarEntryForm(forms.ModelForm):
     date_planned = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     recipes = forms.ModelMultipleChoiceField(queryset=Recipe.objects.all(), widget=forms.SelectMultiple(attrs={'class':'form-control'}))
-    
+
     class Meta:
         model = CalendarEntry
         fields = '__all__'

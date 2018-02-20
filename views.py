@@ -163,18 +163,16 @@ def calendar_entry_gs(request, calendar_entry_id):
     CalendarEntry.set_calendar_date(request, CalendarEntry.objects.get(pk=calendar_entry_id))
     return redirect('kitchen:calendarEntry-index')
 
-def CalendarEntryAdd(request):
-    google_calendars = GoogleCalendar.objects.filter(user__exact=user).all()
-    template = loader.get_template('kitchen/calendarentry_form.html')
-    context = { 'calendar_entries' : calendar_entries, 'google_calendars': google_calendars }
-    return HttpResponse(template.render(context, request))
+class CalendarEntryAdd(CreateView):
+    model = CalendarEntry
+    form_class = CalendarEntryForm
+    template_file = "kitchen/calendarentry_form.html"
+    user = None
 
-# def CalendarEntryUpdate(request,id):
-#     calendar_entries = CalendarEntry.objects.get(pk=id)
-#     google_calendars = GoogleCalendar.objects.filter(user__exact=request.user).all()
-#     template = loader.get_template('kitchen/calendarentry_form.html')
-#     context = { 'calendar_entries' : calendar_entries, 'google_calendars': google_calendars }
-#     return HttpResponse(template.render(context, request))
+    def get_form_kwargs(self):
+        kwargs = super(CalendarEntryAdd, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 class CalendarEntryUpdate(UpdateView):
     model = CalendarEntry
