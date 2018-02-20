@@ -15,6 +15,7 @@
                                   <th class="column-title">Ingredient</th>
                                   <th class="column-title">Barcode</th>
                                   <th class="column-title">Estimated Cost</th>
+                                  <th class="column-title"></th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -24,6 +25,7 @@
                                       <td class=" "><a href="/kitchen/ingredient/{{ ingredient.id }}/">{{ ingredient.name }}</a></td>
                                       <td class=" ">{{ ingredient.barcode }}</td>
                                       <td class=" ">{{ ingredient.estimated_cost }}</td>
+                                      <td class=" "><a href="/kitchen/ingredient/{{ ingredient.id }}/delete" class="btn btn-danger">Delete</a></td>
                                     </tr>
                                  {% endfor %}
                               </tbody>

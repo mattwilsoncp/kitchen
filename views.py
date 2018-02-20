@@ -45,12 +45,12 @@ def category_index(request):
 class CategoryCreate(CreateView):
     model = Category
     form_class = CategoryForm
-    template_name = 'kitchen/category_form.html'
+    template_name = 'kitchen/form_template.html'
 
 class CategoryUpdate(UpdateView):
     model = Category
     form_class = CategoryForm
-    template_name = 'kitchen/category_form.html'
+    template_name = 'kitchen/form_template.html'
 
 def ingredients_index(request):
     ingredients = Ingredient.objects.order_by('name')
@@ -61,18 +61,17 @@ def ingredients_index(request):
 class IngredientAdd(CreateView):
     model = Ingredient
     form_class = IngredientForm
-    template_name = 'kitchen/ingredient_form.html'
+    template_name = 'kitchen/form_template.html'
 
 class IngredientUpdate(UpdateView):
     model = Ingredient
     form_class = IngredientForm
-    template_name = 'kitchen/ingredient_form.html'
-
+    template_name = 'kitchen/form_template.html'
 
 class IngredientDelete(DeleteView):
     model = Ingredient
     success_url = reverse_lazy('kitchen:ingredients-index')
-
+    template_name = 'kitchen/confirm_delete.html'
 
 def recipes_index(request):
     recipes = Recipe.objects.order_by('name')
@@ -100,6 +99,7 @@ class RecipeUpdate(UpdateView):
 class RecipeDelete(DeleteView):
     model = Recipe
     success_url = reverse_lazy('kitchen:recipes-index')
+    template_name = 'kitchen/confirm_delete.html'
 
 def add_recipe_ingredient(request, recipe_id):
     if request.method == 'POST':
@@ -127,6 +127,7 @@ def edit_recipe_ingredient(request, id):
 class RecipeIngredientDelete(DeleteView):
     model = RecipeIngredient
     success_url = reverse_lazy('kitchen:recipes-index')
+    template_name = 'kitchen/confirm_delete.html'
 
 class RecipeIngredientCreate(CreateView):
     model = RecipeIngredient
@@ -166,28 +167,33 @@ def calendar_entry_gs(request, calendar_entry_id):
 class CalendarEntryAdd(CreateView):
     model = CalendarEntry
     form_class = CalendarEntryForm
-    template_file = "kitchen/calendarentry_form.html"
+    template_name = "kitchen/form_template.html"
     user = None
+    title = None
 
     def get_form_kwargs(self):
         kwargs = super(CalendarEntryAdd, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['title'] = 'Edit Calendar'
         return kwargs
 
 class CalendarEntryUpdate(UpdateView):
     model = CalendarEntry
     form_class = CalendarEntryForm
-    template_file = "kitchen/calendarentry_form.html"
+    template_name = "kitchen/form_template.html"
     user = None
+    title = None
 
     def get_form_kwargs(self):
         kwargs = super(CalendarEntryUpdate, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['title'] = 'Edit Calendar'
         return kwargs
 
 class CalendarEntryDelete(DeleteView):
     model = CalendarEntry
     success_url = reverse_lazy('kitchen:calendarEntry-index')
+    template_name = 'kitchen/confirm_delete.html'
 
 
 def shopping_list_index(request):
@@ -248,12 +254,12 @@ def syncToSheets(request):
 class UnitCreate(CreateView):
     model = Unit
     form_class = UnitForm
-    template_name = 'kitchen/unit_form.html'
+    template_name = 'kitchen/form_template.html'
 
 class UnitUpdate(CreateView):
     model = Unit
     form_class = UnitForm
-    template_name = 'kitchen/unit_form.html'
+    template_name = 'kitchen/form_template.html'
 
 def unit_index(request):
     units = Unit.objects.order_by('name')

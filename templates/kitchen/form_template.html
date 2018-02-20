@@ -1,3 +1,10 @@
+{% extends "material_kit.html" %}
+
+{% block title %}
+  {{ form.self.title }}
+{% endblock %}
+
+{% block content %}
 <div class="card">
   <div class="card-body">
     <form method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
@@ -16,3 +23,4 @@
     </div>
   </div>
 </div>
+{% endblock %}

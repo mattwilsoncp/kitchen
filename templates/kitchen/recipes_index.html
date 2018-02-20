@@ -18,7 +18,8 @@
       <div class="card-body">
         <h4 class="card-title">{{ recipe.name }}</h4>
         <p class="card-text">{{ recipe.description }}</br><a href="{{ recipe.recipe_url }}" target="_blank">{{ recipe.recipe_url }}</a></p>
-        <a href="/kitchen/recipe/{{ recipe.id }}/review" class="btn btn-primary">Review</a>
+        <a href="/kitchen/recipe/{{ recipe.id }}/review" class="btn btn-success">Review</a>&nbsp;
+        <a href="/kitchen/recipe/{{ recipe.id }}/delete" class="btn btn-danger">Delete</a>
       </div>
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
