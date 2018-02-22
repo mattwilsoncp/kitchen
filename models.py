@@ -33,12 +33,14 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('kitchen:category-index')
 
+
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
     generic_name = models.CharField(max_length=100)
     barcode = models.CharField(max_length=100)
     estimated_cost = models.FloatField(default=1.00)
     quantity_on_hand = models.IntegerField(default=1)
+
 
     def __str__(self):
       return self.name

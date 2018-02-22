@@ -21,14 +21,15 @@ class BackupSheet():
         wks = sh.worksheet_by_title("Shopping List")
 
         shopping_list = ShoppingList.objects.get(pk=id)
+        recipes = []
         ingredients = []
         for ce in shopping_list.calendar_entries.all():
           for recipe in ce.recipes.all():
+              recipes.append([recipe.name])
               for ringredient in RecipeIngredient.objects.filter(recipe_id=recipe.id):
                 ingredients.append([ringredient.ingredient.name])
 
         wks.update_cell('A1','Ingredient Name')
-
         cell = wks.cell('A1')
         cell.text_format['bold'] = True
         cell.text_format['underline'] = True
@@ -36,11 +37,21 @@ class BackupSheet():
 
         wks.update_cells("A2:A", ingredients)
 
+        sh.add_worksheet("Recipes")
+        wks = sh.worksheet_by_title("Recipes")
+        wks.update_cell('A1','Recipe')
+        cell = wks.cell('A1')
+        cell.text_format['bold'] = True
+        cell.text_format['underline'] = True
+        cell.update()
+        wks.update_cells("A2:A", recipes)
+
+
         ### Maintenance
         wks = sh.worksheet_by_title("Sheet1")
         sh.del_worksheet(wks)
 
-        
+
 
     def backupDatabase(self, user):
         print("backup in progress...")
