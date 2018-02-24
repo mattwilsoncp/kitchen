@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recipe, Unit, Category, RecipeIngredient, Ingredient, ShoppingList, CalendarEntry, GoogleCalendar
+from .models import Recipe, Unit, Category, RecipeIngredient, Ingredient, ShoppingList, CalendarEntry, GoogleCalendar, Store
 from django.contrib.auth.models import User
 
 class RecipeForm(forms.ModelForm):
@@ -16,6 +16,13 @@ class RecipeForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
+        fields = '__all__'
+
+class StoreForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
+    class Meta:
+        model = Store
         fields = '__all__'
 
 class RecipeIngredientForm(forms.ModelForm):
@@ -40,6 +47,7 @@ class IngredientForm(forms.ModelForm):
     barcode = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     estimated_cost = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     quantity_on_hand = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    store = forms.ModelChoiceField(queryset=Store.objects.all(), widget=forms.Select(attrs={'class':'form-control', 'height':'150px'}))
     class Meta:
         model = Ingredient
         fields = '__all__'
@@ -60,7 +68,7 @@ class UnitForm(forms.ModelForm):
 class CalendarEntryForm(forms.ModelForm):
     date_planned = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     recipes = forms.ModelMultipleChoiceField(queryset=Recipe.objects.all(), widget=forms.SelectMultiple(attrs={'class':'form-control'}))
-    
+
     class Meta:
         model = CalendarEntry
         fields = '__all__'
@@ -70,3 +78,17 @@ class CalendarEntryForm(forms.ModelForm):
         self.user = user
         self.title = title
         google_calendar = forms.ModelChoiceField(queryset=GoogleCalendar.objects.filter(user__exact=self.user._meta.get_field('id')).all(), widget=forms.Select(attrs={'class':'form-control'}))
+
+class ScanForm(forms.Form):
+    scan_item = forms.CharField(label="Please Scan Item", max_length=100)
+
+class IngredientScanForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    barcode = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    estimated_cost = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    quantity_on_hand = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    store = forms.ModelChoiceField(queryset=Store.objects.all(), widget=forms.Select(attrs={'class':'form-control', 'height':'150px'}))
+
+class IngredientPickerForm(forms.Form):
+    ingredient = forms.ModelChoiceField(queryset=Ingredient.objects.all(), widget=forms.Select(attrs={'class':'form-control', 'height':'150px'}))
+    barcode = forms.CharField(max_length=100)

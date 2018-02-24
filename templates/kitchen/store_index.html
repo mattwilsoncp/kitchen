@@ -1,0 +1,30 @@
+{% extends "material_kit.html" %}
+
+{% block title %}Stores{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <a href="/kitchen/stores/add" class="btn btn-default">Add One!</a>
+              <div class="table-responsive">
+                  <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                                <tr>
+                                  <th class="column-title">Store Name</th>
+                                  <th class="column-title"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 {% for store in stores %}
+                                    <tr>
+                                      <td class=" "><a href="/kitchen/stores/{{ store.id }}/">{{ store.name }}</a></td>
+                                    </tr>
+                                 {% endfor %}
+                              </tbody>
+               </table>
+            </div>
+<a href="/kitchen/stores/add" class="btn btn-default">Add One!</a>
+</div>
+</div>
+{% endblock %}

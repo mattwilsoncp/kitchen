@@ -1,0 +1,30 @@
+{% extends "material_kit.html" %}
+{% block title %}Scan In{% endblock %}
+
+{% block content %}
+
+<div class="card" style="width: 100%;">
+  <div class="card-body">
+    <h4 class="card-title">Scan Ingredients Into Inventory&nbsp;<i class="material-icons left">settings_remote</i></h4>
+
+    <form method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
+      {% csrf_token %}
+      {{ form }}
+        <input type="submit" value="Submit Form" class="btn btn-primary">
+    </form>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block jquery %}
+<script>
+$( document ).ready(function() {
+  $('input[id=id_name]').val('{{ ingredient.name }}');
+  $('input[id=id_barcode]').val('{{ ingredient.barcode }}');
+  $('input[id=id_quantity_on_hand]').val(1);
+  $('[name=store]').val({{ ingredient.store.id }});
+  $('input[id=id_estimated_cost]').focus();
+});
+</script>
+{% endblock %}

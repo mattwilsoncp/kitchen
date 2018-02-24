@@ -33,6 +33,17 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('kitchen:category-index')
 
+class Store(models.Model):
+    name = models.CharField(max_length=100)
+
+    def get_absolute_url(self):
+      return reverse('kitchen:store-index')
+
+    def __str__(self):
+      return self.name
+
+
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
@@ -40,7 +51,7 @@ class Ingredient(models.Model):
     barcode = models.CharField(max_length=100)
     estimated_cost = models.FloatField(default=1.00)
     quantity_on_hand = models.IntegerField(default=1)
-
+    store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
       return self.name
@@ -50,6 +61,22 @@ class Ingredient(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+class StoreReceipt(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, default=1)
+    receipt_total = models.FloatField(default=1.00)
+    receipt_identifier = models.CharField(max_length=100)
+
+    def __str__(self):
+      return self.receipt_identifier
+
+class StoreReceiptDetails(models.Model):
+    store_receipt = models.ForeignKey(StoreReceipt, on_delete=models.CASCADE, default=1)
+    item_description = models.CharField(max_length=100)
+    barcode = models.CharField(max_length=100)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.SET_NULL, null=True)
+    price = models.FloatField(default=1.00)
+
 
 
 class Unit(models.Model):

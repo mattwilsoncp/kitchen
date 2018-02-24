@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
-from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar, RecipeIngredient, Unit
+from .models import Category, Ingredient, Recipe, CalendarEntry, ShoppingList, GoogleCalendar, RecipeIngredient, Unit, Store
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
 
-from .Recipes import RecipeForm, RecipeIngredientForm, ShoppingListForm, IngredientForm, CategoryForm, UnitForm, CalendarEntryForm
+from .Recipes import RecipeForm, RecipeIngredientForm, ShoppingListForm, IngredientForm, CategoryForm, UnitForm, CalendarEntryForm, StoreForm, ScanForm, IngredientScanForm, IngredientPickerForm
 
 import httplib2
 import pdb
@@ -51,6 +51,23 @@ class CategoryUpdate(UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'kitchen/form_template.html'
+
+def store_index(request):
+    stores = Store.objects.order_by('name')
+    template = loader.get_template('kitchen/store_index.html')
+    context = { 'stores' : stores }
+    return HttpResponse(template.render(context, request))
+
+class StoreCreate(CreateView):
+    model = Store
+    form_class = StoreForm
+    template_name = 'kitchen/form_template.html'
+
+class StoreUpdate(UpdateView):
+    model = Store
+    form_class = StoreForm
+    template_name = 'kitchen/form_template.html'
+
 
 def ingredients_index(request):
     ingredients = Ingredient.objects.order_by('name')
@@ -283,3 +300,44 @@ def maintenance(request):
     template = loader.get_template('kitchen/maintenance.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+def scan_in(request):
+    if request.method == 'POST':
+        form = ScanForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['scan_item']
+            if Ingredient.objects.filter(barcode__exact=barcode).count() > 0:
+                return redirect('kitchen:scan-in2', barcode=barcode)
+            else:
+                #Create form here that displays list of ingredients to choose where barcode came from
+                template = loader.get_template('kitchen/scan-in3.html')
+                form = IngredientPickerForm()
+                return render(request, 'kitchen/scan-in3.html', {'form':form, 'barcode': barcode})
+    else:
+        form = ScanForm()
+    return render(request, 'kitchen/scan-in1.html', {'form':form})
+
+def scan_in2(request,barcode):
+    if request.method == 'POST':
+        form = IngredientScanForm(request.POST)
+        if form.is_valid():
+            ingredient = Ingredient.objects.filter(barcode__exact=form.cleaned_data['barcode']).first()
+            ingredient.name = form.cleaned_data['name']
+            ingredient.estimated_cost = form.cleaned_data['estimated_cost']
+            ingredient.quantity_on_hand = form.cleaned_data['quantity_on_hand']
+            ingredient.store = form.cleaned_data['store']
+            ingredient.save()
+    else:
+        template = loader.get_template('kitchen/scan-in2.html')
+        ingredient = Ingredient.objects.filter(barcode__exact=barcode).first()
+        form = IngredientScanForm()
+        return render(request, 'kitchen/scan-in2.html', {'form':form, 'ingredient':ingredient})
+    return redirect('kitchen:scan-in')
+
+def scan_in3(request):
+    form = IngredientPickerForm(request.POST)
+    if form.is_valid():
+        ingredient = Ingredient.objects.get(pk=form.cleaned_data['ingredient'].id)
+        ingredient.barcode = form.cleaned_data['barcode']
+        ingredient.save()
+    return redirect('kitchen:scan-in2', barcode=ingredient.barcode) 

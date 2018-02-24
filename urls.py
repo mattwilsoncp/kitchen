@@ -1,13 +1,17 @@
 
 from django.urls import path
 from . import views
-from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase, RecipeIngredientCreate, UnitCreate, RecipeIngredientDelete, UnitUpdate
+from kitchen.views import CategoryUpdate, CategoryCreate, IngredientUpdate, IngredientAdd, IngredientDelete, RecipeAdd, RecipeUpdate, RecipeDelete, CalendarEntryAdd, CalendarEntryUpdate, CalendarEntryDelete, ShoppingListAdd, ShoppingListUpdate, backupDatabase, RecipeIngredientCreate, UnitCreate, RecipeIngredientDelete, UnitUpdate, StoreCreate, StoreUpdate
 
 app_name = 'kitchen'
 urlpatterns = [
     path('categories/', views.category_index, name='category-index'),
     path('category/<int:pk>/', CategoryUpdate.as_view(), name='category-update'),
     path('category/add/', CategoryCreate.as_view(), name='category-create' ),
+
+    path('stores/', views.store_index, name='store-index'),
+    path('stores/add/', StoreCreate.as_view(), name='store-add' ),
+    path('stores/<int:pk>/', StoreUpdate.as_view(), name='store-update'),
 
     path('ingredients/', views.ingredients_index, name='ingredients-index'),
     path('ingredients/add/', IngredientAdd.as_view(), name='ingredient-add' ),
@@ -44,6 +48,8 @@ urlpatterns = [
     path('unit/edit/<int:pk>', UnitUpdate.as_view(), name='unit-update' ),
 
     path('maintenance/', views.maintenance, name='maintenance' ),
-
+    path('scan-in/', views.scan_in, name='scan-in'),
+    path('scan-in2/<int:barcode>/', views.scan_in2, name='scan-in2'),
+    path('scan-in3/', views.scan_in3, name='scan-in3'),
 
 ]
