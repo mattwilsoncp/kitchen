@@ -317,7 +317,7 @@ def scan_in(request):
         form = ScanForm()
     return render(request, 'kitchen/scan-in1.html', {'form':form})
 
-def scan_in2(request,barcode):
+def scan_in2(request, barcode):
     if request.method == 'POST':
         form = IngredientScanForm(request.POST)
         if form.is_valid():
@@ -329,7 +329,9 @@ def scan_in2(request,barcode):
             ingredient.save()
     else:
         template = loader.get_template('kitchen/scan-in2.html')
+        print(barcode)
         ingredient = Ingredient.objects.filter(barcode__exact=barcode).first()
+        print(ingredient)
         form = IngredientScanForm()
         return render(request, 'kitchen/scan-in2.html', {'form':form, 'ingredient':ingredient})
     return redirect('kitchen:scan-in')
@@ -340,4 +342,4 @@ def scan_in3(request):
         ingredient = Ingredient.objects.get(pk=form.cleaned_data['ingredient'].id)
         ingredient.barcode = form.cleaned_data['barcode']
         ingredient.save()
-    return redirect('kitchen:scan-in2', barcode=ingredient.barcode) 
+    return redirect('kitchen:scan-in2', barcode=ingredient.barcode)

@@ -49,7 +49,7 @@ urlpatterns = [
 
     path('maintenance/', views.maintenance, name='maintenance' ),
     path('scan-in/', views.scan_in, name='scan-in'),
-    path('scan-in2/<int:barcode>/', views.scan_in2, name='scan-in2'),
+    path('scan-in2/<str:barcode>/', views.scan_in2, name='scan-in2'),
     path('scan-in3/', views.scan_in3, name='scan-in3'),
 
 ]
